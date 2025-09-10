@@ -1,0 +1,21 @@
+{
+  "name": "Telqai - AI Automation Education",
+  "short_name": "Telqai",
+  "description": "Empowering high school students in the Arab world with AI automation and no-code development skills",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/logo_program/icon_program-removebg-preview.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo_program/icon_program-removebg-preview.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
