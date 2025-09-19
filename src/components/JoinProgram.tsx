@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Spline from '@splinetool/react-spline';
+import { submitRegistration, type RegistrationData } from '../lib/supabase';
 
 const JoinProgram: React.FC = () => {
   const [currentPhase, setCurrentPhase] = useState(1);
@@ -11,38 +12,59 @@ const JoinProgram: React.FC = () => {
     seconds: 0
   });
 
-  const [formData, setFormData] = useState({
-    // Section 1: Personal Information
-    fullName: '',
-    dateOfBirth: '',
-    email: '',
-    city: '',
-    country: '',
-    currentSchool: '',
-    grade: '',
+  const [formData, setFormData] = useState(() => {
+    // Load from localStorage if available
+    const savedData = localStorage.getItem('talaqai-registration-form');
+    if (savedData) {
+      try {
+        return JSON.parse(savedData);
+      } catch (error) {
+        console.error('Error parsing saved form data:', error);
+      }
+    }
     
-    // Section 2: Educational Background and Experience
-    usedAITools: '',
-    aiExperience: '',
-    
-    // Section 3: Motivation and Goals
-    motivation: '',
-    problemSolving: '',
-    
-    // Section 4: Accessibility and Commitment
-    reliableInternet: '',
-    accommodations: '',
-    commitmentConfirmation: ''
+    return {
+      // Section 1: Personal Information
+      fullName: '',
+      dateOfBirth: '',
+      email: '',
+      city: '',
+      country: '',
+      phone: '',
+      currentSchool: '',
+      grade: '',
+      
+      // Section 2: Educational Background and Experience
+      usedAITools: '',
+      aiExperience: '',
+      
+      // Section 3: Motivation and Goals
+      motivation: '',
+      problemSolving: '',
+      
+      // Section 4: Accessibility and Commitment
+      reliableInternet: '',
+      accommodations: ''
+    };
   });
 
-  // Countdown to program start (example: 30 days from now)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [isFormClosed, setIsFormClosed] = useState(false);
+
+  // Form deadline: October 5, 2025 in Egypt time (UTC+2)
   useEffect(() => {
-    const targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 30); // 30 days from now
+    const formDeadline = new Date('2025-10-05T23:59:59+02:00'); // October 5, 2025 11:59 PM Egypt time
+    const now = new Date();
+    
+    // Check if form is closed
+    if (now > formDeadline) {
+      setIsFormClosed(true);
+    }
     
     const timer = setInterval(() => {
       const now = new Date().getTime();
-      const distance = targetDate.getTime() - now;
+      const distance = formDeadline.getTime() - now;
       
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -54,6 +76,7 @@ const JoinProgram: React.FC = () => {
       if (distance < 0) {
         clearInterval(timer);
         setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setIsFormClosed(true);
       }
     }, 1000);
     
@@ -62,14 +85,112 @@ const JoinProgram: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
+    const updatedFormData = {
+      ...formData,
       [name]: value
-    }));
+    };
+    
+    setFormData(updatedFormData);
+    
+    // Save to localStorage
+    localStorage.setItem('talaqai-registration-form', JSON.stringify(updatedFormData));
+  };
+
+  // Helper function to count words
+  const countWords = (text: string) => {
+    return text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+  };
+
+  // Validation function for each phase
+  const validateCurrentPhase = () => {
+    switch (currentPhase) {
+      case 1:
+        // Personal Information validation
+        if (!formData.fullName.trim()) {
+          alert('Please enter your full name.');
+          return false;
+        }
+        if (!formData.dateOfBirth) {
+          alert('Please enter your date of birth.');
+          return false;
+        }
+        if (!formData.email.trim()) {
+          alert('Please enter your email address.');
+          return false;
+        }
+        if (!formData.city.trim()) {
+          alert('Please enter your city.');
+          return false;
+        }
+        if (!formData.country.trim()) {
+          alert('Please enter your country.');
+          return false;
+        }
+        if (!formData.phone.trim()) {
+          alert('Please enter your phone number.');
+          return false;
+        }
+        if (!formData.currentSchool.trim()) {
+          alert('Please enter your current school.');
+          return false;
+        }
+        if (!formData.grade) {
+          alert('Please select your grade.');
+          return false;
+        }
+        return true;
+
+      case 2:
+        // Educational Background validation
+        if (!formData.usedAITools) {
+          alert('Please select whether you have used AI tools before.');
+          return false;
+        }
+        if (!formData.aiExperience.trim()) {
+          alert('Please describe your AI/programming experience.');
+          return false;
+        }
+        if (countWords(formData.aiExperience) > 200) {
+          alert('Please limit your AI experience description to 200 words maximum.');
+          return false;
+        }
+        return true;
+
+      case 3:
+        // Motivation and Goals validation
+        if (!formData.motivation.trim()) {
+          alert('Please explain your motivation for joining the program.');
+          return false;
+        }
+        if (countWords(formData.motivation) < 150) {
+          alert('Please provide at least 150 words for your motivation.');
+          return false;
+        }
+        if (!formData.problemSolving.trim()) {
+          alert('Please describe a problem AI can help solve.');
+          return false;
+        }
+        if (countWords(formData.problemSolving) < 150) {
+          alert('Please provide at least 150 words for the problem-solving question.');
+          return false;
+        }
+        return true;
+
+      case 4:
+        // Accessibility validation
+        if (!formData.reliableInternet) {
+          alert('Please indicate if you have reliable internet access.');
+          return false;
+        }
+        return true;
+
+      default:
+        return true;
+    }
   };
 
   const nextPhase = () => {
-    if (currentPhase < 4) {
+    if (validateCurrentPhase() && currentPhase < 4) {
       setCurrentPhase(currentPhase + 1);
     }
   };
@@ -80,40 +201,74 @@ const JoinProgram: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Helper function to count words
-    const countWords = (text: string) => {
-      return text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
-    };
+    if (isSubmitting) return;
     
-    // Validate minimum word requirements
-    if (countWords(formData.motivation) < 150) {
-      alert('Please provide at least 150 words for your motivation.');
+    // Final validation before submission
+    if (!validateCurrentPhase()) {
       return;
     }
     
-    if (countWords(formData.problemSolving) < 150) {
-      alert('Please provide at least 150 words for the problem-solving question.');
-      return;
-    }
+    setIsSubmitting(true);
     
-    // Validate maximum word requirement for AI experience
-    if (countWords(formData.aiExperience) > 200) {
-      alert('Please limit your AI experience description to 200 words maximum.');
-      return;
+    try {
+      // Prepare data for Supabase
+      const registrationData: RegistrationData = {
+        full_name: formData.fullName,
+        date_of_birth: formData.dateOfBirth,
+        email: formData.email,
+        city: formData.city,
+        country: formData.country,
+        phone: formData.phone,
+        education_level: formData.grade,
+        field_of_study: formData.currentSchool,
+        current_occupation: formData.currentSchool, // Using school as occupation for students
+        used_ai_tools: formData.usedAITools,
+        ai_experience: formData.aiExperience,
+        motivation: formData.motivation,
+        problem_solving: formData.problemSolving,
+        reliable_internet: formData.reliableInternet,
+        accommodations: formData.accommodations,
+        commitment_confirmation: formData.fullName // Using full name as commitment confirmation
+      };
+
+      const result = await submitRegistration(registrationData);
+      
+      if (result.success) {
+        // Show success message and reset form
+        setShowSuccessMessage(true);
+        // Clear localStorage
+        localStorage.removeItem('talaqai-registration-form');
+        // Reset form
+        setFormData({
+          fullName: '',
+          dateOfBirth: '',
+          email: '',
+          city: '',
+          country: '',
+          phone: '',
+          currentSchool: '',
+          grade: '',
+          usedAITools: '',
+          aiExperience: '',
+          motivation: '',
+          problemSolving: '',
+          reliableInternet: '',
+          accommodations: ''
+        });
+        setCurrentPhase(1);
+      } else {
+        console.error('Submission error details:', result.error);
+        alert(`There was an error submitting your application: ${result.error?.message || 'Unknown error'}. Please try again.`);
+      }
+    } catch (error) {
+      console.error('Unexpected error details:', error);
+      alert(`There was an unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
+    } finally {
+      setIsSubmitting(false);
     }
-    
-    // Validate commitment confirmation
-    if (formData.commitmentConfirmation.toLowerCase() !== formData.fullName.toLowerCase()) {
-      alert('Please type your full name exactly as entered to confirm your commitment.');
-      return;
-    }
-    
-    console.log('Form submitted:', formData);
-    alert('Application submitted successfully! We will review your application and contact you soon.');
-    // Handle final submission
   };
 
   const renderPhase = () => {
@@ -204,6 +359,22 @@ const JoinProgram: React.FC = () => {
                   placeholder="Your country"
                 />
               </div>
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-white/90 mb-2">
+                Phone Number *
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-300 text-white placeholder-white/60"
+                placeholder="Your phone number"
+              />
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -374,28 +545,6 @@ const JoinProgram: React.FC = () => {
                 placeholder="Describe any accommodations or support you may need..."
               />
             </div>
-
-            <div>
-              <label htmlFor="commitmentConfirmation" className="block text-sm font-medium text-white/90 mb-2">
-                By applying, you commit to attending all sessions. Please confirm by typing your full name. *
-              </label>
-              <input
-                type="text"
-                id="commitmentConfirmation"
-                name="commitmentConfirmation"
-                required
-                value={formData.commitmentConfirmation}
-                onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-300 text-white placeholder-white/60"
-                placeholder="Type your full name to confirm commitment"
-              />
-              {formData.commitmentConfirmation && formData.fullName && 
-               formData.commitmentConfirmation.toLowerCase() !== formData.fullName.toLowerCase() && (
-                <div className="text-amber-400 text-xs mt-1">
-                  Please type your full name exactly as entered in Section 1
-                </div>
-              )}
-            </div>
           </div>
         );
 
@@ -406,6 +555,26 @@ const JoinProgram: React.FC = () => {
 
   return (
     <div id="JoinProgram" className="min-h-screen relative overflow-hidden">
+      {/* Form Closed Message */}
+      {isFormClosed && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 max-w-md w-full text-center">
+            <div className="text-6xl mb-4">⏰</div>
+            <h3 className="text-2xl font-bold text-white mb-4">Registration Closed</h3>
+            <p className="text-white/80 mb-6">
+              The registration period for the Telqai AI Program has ended on October 5, 2025. 
+              Thank you for your interest! Please stay tuned for future program announcements.
+            </p>
+            <Link
+              to="/"
+              className="inline-block px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+            >
+              Back to Home
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Spline 3D Background */}
       <div className="absolute inset-0 z-0 scale-150 transform-gpu">
         <div className="w-full h-full relative">
@@ -559,9 +728,14 @@ const JoinProgram: React.FC = () => {
                   ) : (
                     <button
                       type="submit"
-                      className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+                      disabled={isSubmitting}
+                      className={`w-full sm:w-auto px-6 py-3 bg-gradient-to-r font-semibold rounded-xl transition-all duration-300 transform ${
+                        isSubmitting 
+                          ? 'from-gray-500 to-gray-600 cursor-not-allowed' 
+                          : 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105'
+                      } text-white`}
                     >
-                      Submit Application
+                      {isSubmitting ? 'Submitting...' : 'Submit Application'}
                     </button>
                   )}
                 </div>
@@ -570,6 +744,26 @@ const JoinProgram: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Message Modal */}
+      {showSuccessMessage && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 max-w-md w-full text-center">
+            <div className="text-6xl mb-4">🎉</div>
+            <h3 className="text-2xl font-bold text-white mb-4">Application Submitted!</h3>
+            <p className="text-white/80 mb-6">
+              Thank you for applying to the Telqai AI Program! We have received your application and will review it carefully. 
+              You will hear from us soon with next steps.
+            </p>
+            <button
+              onClick={() => setShowSuccessMessage(false)}
+              className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

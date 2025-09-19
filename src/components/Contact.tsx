@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
+  const form = useRef<HTMLFormElement>(null);
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -26,11 +29,19 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission - replace with your actual API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Form submitted:', formData);
+      // EmailJS configuration - replace with your actual values
+      const result = await emailjs.sendForm(
+        'service_is90zgq',     // Your EmailJS service ID
+        'template_ru6p4jj',    // Your EmailJS template ID
+        form.current!,
+        'NpuiIORjT9qwwhnyK'    // Your EmailJS public key
+      );
+      
+      console.log('Email sent successfully:', result.text);
       setSubmitStatus('success');
+      
+      // Reset form
       setFormData({
         firstName: '',
         lastName: '',
@@ -39,10 +50,22 @@ const Contact: React.FC = () => {
         message: '',
         interest: 'student'
       });
+      
+      // Reset form element
+      if (form.current) {
+        form.current.reset();
+      }
+      
     } catch (error) {
+      console.error('Email sending failed:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
+      
+      // Clear status after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
     }
   };
 
@@ -222,7 +245,7 @@ const Contact: React.FC = () => {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-6 relative z-10">
               {/* Contact Type */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
