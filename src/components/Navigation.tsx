@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDarkMode } from '../hooks/useDarkMode';
 
-const Navigation: React.FC = () => {
+const Navigation: React.FC = memo(() => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -38,9 +38,10 @@ const Navigation: React.FC = () => {
   };
 
   return (
-    <nav className={`fixed top-3 left-3 right-3 z-50 transition-all duration-700 rounded-2xl ${
-      isScrolled ? 'py-1' : 'py-2'
-    }`}>
+    <>
+      <nav className={`fixed top-3 left-3 right-3 z-50 transition-all duration-700 rounded-2xl ${
+        isScrolled ? 'py-1' : 'py-2'
+      }`}>
       {/* Modern glassmorphism background with rounded edges */}
       <div className={`absolute inset-0 transition-all duration-700 rounded-2xl border border-white/20 dark:border-slate-700/30 ${
         isScrolled 
@@ -216,8 +217,11 @@ const Navigation: React.FC = () => {
           </div>
         </div>
       </div>
-    </nav>
+      </nav>
+    </>
   );
-};
+});
+
+Navigation.displayName = 'Navigation';
 
 export default Navigation;

@@ -1,22 +1,28 @@
-﻿import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Spline from '@splinetool/react-spline';
 
-const Hero: React.FC = () => {
-  const scrollToSection = (href: string) => {
+const Hero: React.FC = memo(() => {
+  const scrollToSection = useMemo(() => (href: string) => {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-  };
+  }, []);
+
+  // Memoize the Spline component props to prevent unnecessary re-renders
+  const splineProps = useMemo(() => ({
+    scene: "https://prod.spline.design/cphhsMWDnoBs2mjl/scene.splinecode",
+    style: { width: '100%', height: '100%' }
+  }), []);
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-32">
       {/* 3D Spline Background */}
       <div className="absolute inset-0 z-0">
         <Spline
-          scene="https://prod.spline.design/cphhsMWDnoBs2mjl/scene.splinecode"
-          style={{ width: '100%', height: '100%' }}
+          scene={splineProps.scene}
+          style={splineProps.style}
         />
         {/* Reduced overlay for better text readability without heavy blur */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent animate-pulse"></div>
@@ -139,6 +145,8 @@ const Hero: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+Hero.displayName = 'Hero';
 
 export default Hero;
