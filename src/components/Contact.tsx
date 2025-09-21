@@ -11,7 +11,7 @@ const Contact: React.FC = () => {
     email: '',
     phone: '',
     message: '',
-    interest: 'student' // student, parent, teacher
+    interest: '' // Changed to empty string for text input
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -48,7 +48,7 @@ const Contact: React.FC = () => {
         email: '',
         phone: '',
         message: '',
-        interest: 'student'
+        interest: ''
       });
       
       // Reset form element
@@ -133,7 +133,7 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300 font-['Plus_Jakarta_Sans']">Email Contact</h4>
-                      <p className="text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300 font-medium">contact@telqai.org</p>
+                      <p className="text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300 font-medium">telqAI@stemcsclub.org</p>
                       <p className="text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">Response within 24 hours</p>
                     </div>
                   </div>
@@ -251,17 +251,15 @@ const Contact: React.FC = () => {
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
                   I am contacting as a:
                 </label>
-                <select
+                <input
+                  type="text"
                   name="interest"
                   value={formData.interest}
                   onChange={handleInputChange}
                   className="glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300"
+                  placeholder="e.g., Student, Parent, Teacher, etc."
                   required
-                >
-                  <option value="student">Student</option>
-                  <option value="parent">Parent/Guardian</option>
-                  <option value="teacher">Teacher/Educator</option>
-                </select>
+                />
               </div>
 
               {/* Name Fields */}

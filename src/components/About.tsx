@@ -454,10 +454,10 @@ Answer questions directly and helpfully about the program.`
               
               <div className="space-y-4 relative z-10">
                 {[
-                  { week: 'Week 1', skill: 'AI Agents & APIs', progress: 100, sessions: 'Sessions: AI Agents Intro + API Fundamentals' },
-                  { week: 'Week 2', skill: 'n8n Automation', progress: 75, sessions: 'Sessions: Basic Automation + Advanced Workflows' },
-                  { week: 'Week 3', skill: 'Advanced Components', progress: 50, sessions: 'Sessions: AI Agent Components + RAG Systems' },
-                  { week: 'Week 4', skill: 'Integration & Business', progress: 25, sessions: 'Sessions: Hosting Solutions + Advanced Models' }
+                  { week: 'Week 1', skill: 'AI Agents & APIs', sessions: 'Sessions: AI Agents Intro + API Fundamentals' },
+                  { week: 'Week 2', skill: 'n8n Automation', sessions: 'Sessions: Basic Automation + Advanced Workflows' },
+                  { week: 'Week 3', skill: 'Advanced Components', sessions: 'Sessions: AI Agent Components + RAG Systems' },
+                  { week: 'Week 4', skill: 'Integration & Business', sessions: 'Sessions: Hosting Solutions + Advanced Models' }
                 ].map((item, index) => (
                   <div key={index} className="glass-card rounded-xl p-4 hover-lift group">
                     <div className="flex items-center justify-between mb-2">
@@ -466,18 +466,6 @@ Answer questions directly and helpfully about the program.`
                         <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">{item.skill}</div>
                         <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">{item.sessions}</div>
                       </div>
-                      <div className="w-12 h-12 bg-gradient-to-r from-indigo-100 to-violet-100 dark:from-indigo-900/50 dark:to-violet-900/50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">{item.progress}%</span>
-                      </div>
-                    </div>
-                    <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                      <div 
-                        className="bg-gradient-to-r from-indigo-500 to-violet-500 h-2 rounded-full transition-all duration-1000" 
-                        style={{ 
-                          width: `${item.progress}%`,
-                          animationDelay: `${index * 0.2}s`
-                        }}
-                      ></div>
                     </div>
                   </div>
                 ))}
