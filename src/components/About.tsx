@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo, useMemo, useCallback } from 'react';
 import Spline from '@splinetool/react-spline';
 import { useHideSplineWatermark } from '../hooks/useHideSplineWatermark';
 
@@ -8,7 +8,7 @@ interface ChatMessage {
   timestamp: Date;
 }
 
-const About: React.FC = () => {
+const About: React.FC = memo(() => {
   // Use the custom hook to hide watermark
   useHideSplineWatermark();
   
@@ -24,7 +24,7 @@ const About: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Function to clean AI response from formatting and thinking tags
-  const cleanResponse = (text: string): string => {
+  const cleanResponse = useCallback((text: string): string => {
     return text
       .replace(/<think>[\s\S]*?<\/think>/gi, '') // Remove <think> tags and content
       .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold formatting
@@ -34,9 +34,9 @@ const About: React.FC = () => {
       .replace(/^\s*[-*+]\s/gm, '') // Remove bullet points
       .replace(/^\s*\d+\.\s/gm, '') // Remove numbered lists
       .trim();
-  };
+  }, []);
 
-  const sendMessage = async () => {
+  const sendMessage = useCallback(async () => {
     if (!inputMessage.trim()) return;
     
     const userMessage: ChatMessage = {
@@ -125,8 +125,9 @@ Answer questions directly and helpfully about the program.`
     } finally {
       setIsLoading(false);
     }
-  };
-  const features = [
+  }, [inputMessage, messages, cleanResponse]);
+  
+  const features = useMemo(() => [
     {
       title: 'AI Automation',
       description: 'Build smart workflows',
@@ -186,7 +187,7 @@ Answer questions directly and helpfully about the program.`
       ),
       image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDIwMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50M19saW5lYXJfMTAwXzEwMCIgeDE9IjAiIHkxPSIwIiB4Mj0iMjAwIiB5Mj0iMTYwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiMxMEI5ODEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjM0I4MkY2Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNjAiIGZpbGw9InVybCgjcGFpbnQzX2xpbmVhcl8xMDBfMTAwKSIgb3BhY2l0eT0iMC4xIi8+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjgwIiByPSI1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMTBCOTgxIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuOCIvPgo8Y2lyY2xlIGN4PSI4MCIgY3k9IjUwIiByPSI0IiBmaWxsPSIjMTBCOTgxIiBvcGFjaXR5PSIwLjgiLz4KPGNpcmNsZSBjeD0iMTIwIiBjeT0iNTAiIHI9IjQiIGZpbGw9IiMxMEI5ODEiIG9wYWNpdHk9IjAuOCIvPgo8Y2lyY2xlIGN4PSI4MCIgY3k9IjExMCIgcj0iNCIgZmlsbD0iIzEwQjk4MSIgb3BhY2l0eT0iMC44Ii8+CjxjaXJjbGUgY3g9IjEyMCIgY3k9IjExMCIgcj0iNCIgZmlsbD0iIzEwQjk4MSIgb3BhY2l0eT0iMC44Ii8+CjxsaW5lIHgxPSI4MCIgeTE9IjUwIiB4Mj0iMTIwIiB5Mj0iNTAiIHN0cm9rZT0iIzEwQjk4MSIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjYiLz4KPGxpbmUgeDE9IjgwIiB5MT0iMTEwIiB4Mj0iMTIwIiB5Mj0iMTEwIiBzdHJva2U9IiMxMEI5ODEiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC42Ii8+CjxsaW5lIHgxPSI4MCIgeTE9IjUwIiB4Mj0iODAiIHkyPSIxMTAiIHN0cm9rZT0iIzEwQjk4MSIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjYiLz4KPGxpbmUgeDE9IjEyMCIgeTE9IjUwIiB4Mj0iMTIwIiB5Mj0iMTEwIiBzdHJva2U9IiMxMEI5ODEiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC42Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTQwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiMxMEI5ODEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkdsb2JhbCBOZXR3b3JrPC90ZXh0Pgo8L3N2Zz4="
     },
-  ];
+  ], []);
 
   return (
     <section id="about" className="relative py-24 overflow-hidden min-h-screen">
@@ -545,6 +546,6 @@ Answer questions directly and helpfully about the program.`
       </div>
     </section>
   );
-};
+});
 
 export default About;

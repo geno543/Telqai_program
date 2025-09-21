@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 
-const Contact: React.FC = () => {
+const Contact: React.FC = memo(() => {
   const form = useRef<HTMLFormElement>(null);
   
   const [formData, setFormData] = useState({
@@ -14,19 +14,95 @@ const Contact: React.FC = () => {
     interest: '' // Changed to empty string for text input
   });
 
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    message: '',
+    interest: ''
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  // Validation functions
+  const validateEmail = (email: string): string => {
+    if (!email) return 'Email is required';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return 'Please enter a valid email address';
+    return '';
+  };
+
+  const validatePhone = (phone: string): string => {
+    if (!phone) return 'Phone number is required';
+    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+    if (!phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''))) return 'Please enter a valid phone number';
+    return '';
+  };
+
+  const validateRequired = (value: string, fieldName: string): string => {
+    if (!value.trim()) return `${fieldName} is required`;
+    return '';
+  };
+
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+
+    // Real-time validation
+    let error = '';
+    switch (name) {
+      case 'firstName':
+        error = validateRequired(value, 'First name');
+        break;
+      case 'lastName':
+        error = validateRequired(value, 'Last name');
+        break;
+      case 'email':
+        error = validateEmail(value);
+        break;
+      case 'phone':
+        error = validatePhone(value);
+        break;
+      case 'message':
+        error = validateRequired(value, 'Message');
+        break;
+      case 'interest':
+        error = validateRequired(value, 'Interest');
+        break;
+    }
+
+    setErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+  }, []);
+
+  const validateForm = (): boolean => {
+    const newErrors = {
+      firstName: validateRequired(formData.firstName, 'First name'),
+      lastName: validateRequired(formData.lastName, 'Last name'),
+      email: validateEmail(formData.email),
+      phone: validatePhone(formData.phone),
+      message: validateRequired(formData.message, 'Message'),
+      interest: validateRequired(formData.interest, 'Interest')
+    };
+
+    setErrors(newErrors);
+    return Object.values(newErrors).every(error => error === '');
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -67,7 +143,7 @@ const Contact: React.FC = () => {
         setSubmitStatus('idle');
       }, 5000);
     }
-  };
+  }, [formData, validateForm]);
 
   return (
     <section id="contact" className="py-24 bg-gradient-to-br from-cyan-50 via-slate-50 to-cyan-100 dark:from-slate-900 dark:via-slate-800 dark:to-cyan-900 relative overflow-hidden">
@@ -245,7 +321,7 @@ const Contact: React.FC = () => {
               </div>
             )}
 
-            <form ref={form} onSubmit={handleSubmit} className="space-y-6 relative z-10">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-6 relative z-10" noValidate>
               {/* Contact Type */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
@@ -256,10 +332,20 @@ const Contact: React.FC = () => {
                   name="interest"
                   value={formData.interest}
                   onChange={handleInputChange}
-                  className="glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300"
+                  className={`glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300 ${
+                    errors.interest ? 'border-red-500 focus:border-red-500' : ''
+                  }`}
                   placeholder="e.g., Student, Parent, Teacher, etc."
                   required
                 />
+                {errors.interest && (
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
+                    <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
+                    {errors.interest}
+                  </p>
+                )}
               </div>
 
               {/* Name Fields */}
@@ -273,9 +359,19 @@ const Contact: React.FC = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleInputChange}
-                    className="glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300"
+                    className={`glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300 ${
+                      errors.firstName ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                     required
                   />
+                  {errors.firstName && (
+                    <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                      {errors.firstName}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
@@ -286,9 +382,19 @@ const Contact: React.FC = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
-                    className="glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300"
+                    className={`glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300 ${
+                      errors.lastName ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                     required
                   />
+                  {errors.lastName && (
+                    <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                      {errors.lastName}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -303,9 +409,19 @@ const Contact: React.FC = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300"
+                    className={`glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300 ${
+                      errors.email ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                     required
                   />
+                  {errors.email && (
+                    <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
@@ -316,8 +432,18 @@ const Contact: React.FC = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300"
+                    className={`glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300 ${
+                      errors.phone ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                   />
+                  {errors.phone && (
+                    <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                      {errors.phone}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -331,10 +457,20 @@ const Contact: React.FC = () => {
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={5}
-                  className="glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300 resize-none"
+                  className={`glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300 resize-none ${
+                    errors.message ? 'border-red-500 focus:border-red-500' : ''
+                  }`}
                   placeholder="Tell us how we can help you or ask any questions about our AI education program..."
                   required
                 />
+                {errors.message && (
+                  <p className="mt-2 text-sm text-red-600 dark:text-red-400 flex items-center">
+                    <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
+                    {errors.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
@@ -382,6 +518,6 @@ const Contact: React.FC = () => {
       </div>
     </section>
   );
-};
+});
 
 export default Contact;

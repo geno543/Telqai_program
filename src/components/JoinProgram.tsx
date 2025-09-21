@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Spline from '@splinetool/react-spline';
 import { submitRegistration, type RegistrationData } from '../lib/supabase';
 
-const JoinProgram: React.FC = () => {
+const JoinProgram: React.FC = memo(() => {
   const [currentPhase, setCurrentPhase] = useState(1);
   const [countdown, setCountdown] = useState({
     days: 0,
@@ -83,7 +83,7 @@ const JoinProgram: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     const updatedFormData = {
       ...formData,
@@ -94,7 +94,7 @@ const JoinProgram: React.FC = () => {
     
     // Save to localStorage
     localStorage.setItem('talaqai-registration-form', JSON.stringify(updatedFormData));
-  };
+  }, [formData]);
 
   // Helper function to count words
   const countWords = (text: string) => {
@@ -614,22 +614,22 @@ const JoinProgram: React.FC = () => {
             Join Telqai Program
           </h1>
           <p className="text-cyan-300 text-base md:text-lg mb-4">Application Deadline Countdown</p>
-          <div className="flex justify-center space-x-2 md:space-x-4 mb-6">
-            <div className="bg-white/10 backdrop-blur-md rounded-lg p-2 md:p-3 border border-white/20">
-              <div className="text-lg md:text-xl font-bold text-cyan-400">{countdown.days}</div>
-              <div className="text-white/70 text-xs">Days</div>
+          <div className="flex justify-center space-x-3 md:space-x-4 mb-6">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 w-16 h-20 md:w-20 md:h-24 flex flex-col items-center justify-center">
+              <div className="text-xl md:text-2xl font-bold text-cyan-400 leading-none">{countdown.days}</div>
+              <div className="text-white/70 text-xs mt-1 font-medium">Days</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-lg p-2 md:p-3 border border-white/20">
-              <div className="text-lg md:text-xl font-bold text-cyan-400">{countdown.hours}</div>
-              <div className="text-white/70 text-xs">Hours</div>
+            <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 w-16 h-20 md:w-20 md:h-24 flex flex-col items-center justify-center">
+              <div className="text-xl md:text-2xl font-bold text-cyan-400 leading-none">{countdown.hours}</div>
+              <div className="text-white/70 text-xs mt-1 font-medium">Hours</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-lg p-2 md:p-3 border border-white/20">
-              <div className="text-lg md:text-xl font-bold text-cyan-400">{countdown.minutes}</div>
-              <div className="text-white/70 text-xs">Minutes</div>
+            <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 w-16 h-20 md:w-20 md:h-24 flex flex-col items-center justify-center">
+              <div className="text-xl md:text-2xl font-bold text-cyan-400 leading-none">{countdown.minutes}</div>
+              <div className="text-white/70 text-xs mt-1 font-medium">Minutes</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-md rounded-lg p-2 md:p-3 border border-white/20">
-              <div className="text-lg md:text-xl font-bold text-cyan-400">{countdown.seconds}</div>
-              <div className="text-white/70 text-xs">Seconds</div>
+            <div className="bg-white/10 backdrop-blur-md rounded-xl border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-white/15 w-16 h-20 md:w-20 md:h-24 flex flex-col items-center justify-center">
+              <div className="text-xl md:text-2xl font-bold text-cyan-400 leading-none">{countdown.seconds}</div>
+              <div className="text-white/70 text-xs mt-1 font-medium">Seconds</div>
             </div>
           </div>
         </div>
@@ -766,6 +766,6 @@ const JoinProgram: React.FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default JoinProgram;
