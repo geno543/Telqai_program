@@ -47,6 +47,8 @@ function App() {
               <JoinProgram />
             </Suspense>
           } />
+          {/* Catch-all route for handling direct navigation */}
+          <Route path="*" element={<HomePage />} />
         </Routes>
         <Footer />
       </div>
