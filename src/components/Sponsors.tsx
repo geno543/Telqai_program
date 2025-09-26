@@ -5,100 +5,19 @@ interface Sponsor {
   description: string;
   logo: string; // This will be a placeholder path that you can replace
   website: string;
-  type: 'gold';
 }
 
 const Sponsors: React.FC = () => {
-  // Placeholder sponsors - replace with your actual sponsors
   const sponsors: Sponsor[] = [
-    {
-      name: "TechCorp International",
-      description: "Leading technology solutions provider supporting AI education initiatives across the MENA region.",
-      logo: "/sponsors/techcorp-logo.png", // Replace with actual logo path
-      website: "https://techcorp.example.com",
-      type: "gold"
-    },
-    {
-      name: "AI Innovation Hub",
-      description: "Research institute dedicated to advancing artificial intelligence education and development.",
-      logo: "/sponsors/ai-hub-logo.png", // Replace with actual logo path
-      website: "https://aihub.example.com",
-      type: "gold"
-    },
-    {
-      name: "Future Skills Foundation",
-      description: "Non-profit organization focused on preparing students for the digital economy.",
-      logo: "/sponsors/future-skills-logo.png", // Replace with actual logo path
-      website: "https://futureskills.example.com",
-      type: "gold"
-    },
-    {
-      name: "Digital Learning Academy",
-      description: "Educational platform providing cutting-edge technology courses and resources.",
-      logo: "/sponsors/digital-academy-logo.png", // Replace with actual logo path
-      website: "https://digitalacademy.example.com",
-      type: "gold"
-    },
-    {
-      name: "Innovation Labs MENA",
-      description: "Technology incubator supporting startups and educational initiatives in the Middle East.",
-      logo: "/sponsors/innovation-labs-logo.png", // Replace with actual logo path
-      website: "https://innovationlabs.example.com",
-      type: "gold"
-    },
-    {
-      name: "Youth Tech Initiative",
-      description: "Government-backed program promoting technology education among young people.",
-      logo: "/sponsors/youth-tech-logo.png", // Replace with actual logo path
-      website: "https://youthtech.example.com",
-      type: "gold"
-    }
+    // {
+    //   name: "Make",
+    //   description: "The visual platform for anyone to design, build, and automate anything—from simple tasks to complex workflows—in minutes.",
+    //   logo: "/sponsors/make-logo.svg", // You can replace this with Make's actual logo
+    //   website: "https://make.com"
+    // }
   ];
 
-  const SponsorCard: React.FC<{ sponsor: Sponsor; size: 'large' | 'medium' | 'small' }> = ({ sponsor, size }) => {
-    const sizeClasses = {
-      large: 'p-8 text-center',
-      medium: 'p-6 text-center',
-      small: 'p-4 text-center'
-    };
 
-    const logoSizes = {
-      large: 'w-32 h-32',
-      medium: 'w-24 h-24',
-      small: 'w-16 h-16'
-    };
-
-    return (
-      <div className={`bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 ${sizeClasses[size]}`}>
-        {/* Logo placeholder - replace with actual logo */}
-        <div className={`${logoSizes[size]} bg-gradient-to-br from-accent-blue/20 to-accent-green/20 rounded-lg mx-auto mb-4 flex items-center justify-center`}>
-          <span className="text-primary dark:text-white font-bold text-2xl">
-            {sponsor.name.split(' ').map(word => word[0]).join('').slice(0, 2)}
-          </span>
-        </div>
-        
-        <h3 className={`font-bold text-primary dark:text-white mb-2 ${size === 'large' ? 'text-xl' : size === 'medium' ? 'text-lg' : 'text-base'}`}>
-          {sponsor.name}
-        </h3>
-        
-        <p className={`text-gray-600 dark:text-gray-300 mb-4 ${size === 'small' ? 'text-sm' : 'text-base'}`}>
-          {sponsor.description}
-        </p>
-        
-        <a
-          href={sponsor.website}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center space-x-1 text-accent-blue hover:text-accent-green transition-colors duration-200 font-medium"
-        >
-          <span className={size === 'small' ? 'text-sm' : 'text-base'}>Visit Website</span>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-        </a>
-      </div>
-    );
-  };
 
   return (
     <section id="sponsors" className="py-20 bg-white dark:bg-gray-900">
@@ -108,20 +27,80 @@ const Sponsors: React.FC = () => {
           <h2 className="text-4xl lg:text-5xl font-bold text-primary dark:text-white mb-6">
             Our{' '}
             <span className="bg-gradient-to-r from-accent-blue to-accent-green bg-clip-text text-transparent">
-              Sponsors
+              Sponsor
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            We're proud to collaborate with leading organizations that share our vision of empowering the next generation with AI skills.
+            Our sponsors believe in empowering young minds with the tools they need to succeed. Their support helps us provide world-class resources and opportunities that make TelqAI truly exceptional.
           </p>
         </div>
 
-        {/* All Sponsors */}
+        {/* Sponsors Grid */}
         <div className="mb-16">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Make Sponsor Card */}
             {sponsors.map((sponsor, index) => (
-              <SponsorCard key={index} sponsor={sponsor} size="medium" />
+              <div key={index} className="bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 p-8 text-center">
+                {/* Make Logo */}
+                <div className="w-40 h-32 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-lg mx-auto mb-6 flex items-center justify-center">
+                  <span className="text-primary dark:text-white font-bold p-2 text-3xl">
+                    <img style={{ filter: "brightness(0) invert(1)" }} src={sponsor.logo} alt={`${sponsor.name} Logo`} className="w-full h-full object-contain" />
+                  </span>
+                </div>
+
+                <h3 className="text-2xl font-bold text-primary dark:text-white mb-4">
+                  {sponsor.name}
+                </h3>
+                
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  Make is partnering with us to give every student hands-on experience with professional automation tools. They're providing 6-month premium subscriptions so our participants can build real workflows and learn industry-standard practices.
+                </p>
+                
+                <a
+                  href={sponsor.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 text-accent-blue hover:text-accent-green transition-colors duration-200 font-medium text-lg"
+                >
+                  <span>Visit Make.com</span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
             ))}
+         
+            {/* Be a Sponsor Card */}
+            <div className="bg-gradient-to-br from-accent-blue/10 to-accent-green/10 dark:from-accent-blue/20 dark:to-accent-green/20 rounded-xl border-2 border-dashed border-accent-blue/30 dark:border-accent-blue/50 p-8 text-center hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105">
+              <div className="w-32 h-32 bg-gradient-to-br from-accent-blue/20 to-accent-green/20 rounded-lg mx-auto mb-6 flex items-center justify-center">
+                <svg className="w-16 h-16 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+              
+              <h3 className="text-2xl font-bold text-primary dark:text-white mb-4">
+                Your Company Here
+              </h3>
+              
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                Help us train the next generation of tech leaders. Your support provides students with tools, mentorship, and real opportunities to launch their careers in AI and automation.
+              </p>
+              
+              <button 
+                onClick={() => {
+                  const element = document.querySelector('#contact');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="bg-gradient-to-r from-accent-blue to-accent-green text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 inline-flex items-center space-x-2"
+              >
+                <span>Become a Sponsor</span>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -129,10 +108,10 @@ const Sponsors: React.FC = () => {
         <div className="bg-gradient-to-r from-primary/5 to-accent-blue/5 dark:from-primary/10 dark:to-accent-blue/10 rounded-2xl p-8 lg:p-12">
           <div className="text-center mb-8">
             <h3 className="text-3xl font-bold text-primary dark:text-white mb-4">
-              Why Sponsor Us?
+              Partnership Impact
             </h3>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Join us in shaping the future of AI education and empowering the next generation of innovators.
+              Through our sponsors' support, students get access to industry-standard tools and resources that prepare them for real-world careers in technology and automation.
             </p>
           </div>
 
@@ -190,7 +169,7 @@ const Sponsors: React.FC = () => {
               }}
               className="bg-gradient-to-r from-accent-blue to-accent-green text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-200"
             >
-              Become a Sponsor
+              Partner With Us
             </button>
           </div>
         </div>
