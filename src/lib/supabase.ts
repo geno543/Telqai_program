@@ -1,7 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://cofqbeoxwiwqemrlujdg.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNvZnFiZW94d2l3cWVtcmx1amRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyNDIxMDQsImV4cCI6MjA3MzgxODEwNH0.BqKIr4LhbJoN4Vt4WHzNdgmn4wXeR-k3lhWaGyUtOfw'
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Missing Supabase environment variables. Please check your .env file.')
+}
 
 export const supabase = createClient(supabaseUrl, supabaseKey)
 
@@ -27,107 +31,72 @@ export interface RegistrationData {
   created_at?: string
 }
 
+
+
 // Function to submit registration data
 export const submitRegistration = async (formData: RegistrationData) => {
   try {
     console.log('Attempting registration with data:', formData);
     
-    // First try direct insert (should work with new RLS setup)
-    const { data, error } = await supabase
-      .from('registrations')
-      .insert([
-        {
-          full_name: formData.full_name,
-          date_of_birth: formData.date_of_birth,
-          email: formData.email,
-          city: formData.city,
-          country: formData.country,
-          phone: formData.phone,
-          education_level: formData.education_level,
-          field_of_study: formData.current_school, // Map current_school to field_of_study
-          current_occupation: formData.current_school, // Map to current_occupation as well
-          used_ai_tools: formData.used_ai_tools,
-          ai_experience: formData.ai_experience || '',
-          motivation: formData.motivation,
-          problem_solving: formData.problem_solving,
-          reliable_internet: formData.reliable_internet,
-          accommodations: formData.additional_information || '', // Map additional_information to accommodations
-          commitment_confirmation: formData.accept_program_emails ? formData.full_name : '' // Use full name as commitment if they accept emails
-        }
-      ])
-      .select()
+    // Use the RPC function with clean parameter mapping
+    const { data: functionData, error: functionError } = await supabase
+      .rpc('submit_registration', {
+        p_full_name: formData.full_name,
+        p_date_of_birth: formData.date_of_birth,
+        p_email: formData.email,
+        p_city: formData.city,
+        p_country: formData.country,
+        p_phone: formData.phone,
+        p_education_level: formData.education_level,
+        p_current_school: formData.current_school,
+        p_used_ai_tools: formData.used_ai_tools,
+        p_motivation: formData.motivation,
+        p_problem_solving: formData.problem_solving,
+        p_reliable_internet: formData.reliable_internet,
+        p_program_commitment: formData.program_commitment,
+        p_ai_experience: formData.ai_experience || null,
+        p_additional_information: formData.additional_information || null,
+        p_accept_program_emails: formData.accept_program_emails,
+        p_subscribe_newsletter: formData.subscribe_newsletter
+      });
 
-    if (error) {
-      console.log('Direct insert failed, error:', error);
+    if (functionError) {
+      console.error('Registration submission error:', functionError);
       
-      // If direct insert fails due to RLS, try the secure function
-      if (error.message.includes('row-level security') || error.message.includes('policy')) {
-        console.log('Trying RPC function fallback...');
-        
-        const { data: functionData, error: functionError } = await supabase
-          .rpc('submit_registration', {
-            p_full_name: formData.full_name,
-            p_email: formData.email,
-            p_date_of_birth: formData.date_of_birth,
-            p_city: formData.city,
-            p_country: formData.country,
-            p_phone: formData.phone,
-            p_education_level: formData.education_level,
-            p_field_of_study: formData.current_school,
-            p_current_occupation: formData.current_school,
-            p_used_ai_tools: formData.used_ai_tools,
-            p_ai_experience: formData.ai_experience || '',
-            p_motivation: formData.motivation,
-            p_problem_solving: formData.problem_solving,
-            p_reliable_internet: formData.reliable_internet,
-            p_accommodations: formData.additional_information || '',
-            p_commitment_confirmation: formData.accept_program_emails ? formData.full_name : ''
-          })
-
-        if (functionError) {
-          console.error('RPC function error:', functionError);
-          return { 
-            success: false, 
-            error: { 
-              message: functionError.message || 'Database function failed',
-              details: functionError
-            }
-          }
-        }
-
-        const result = functionData as { success: boolean; error?: string; id?: number }
-        if (!result.success) {
-          return { 
-            success: false, 
-            error: { 
-              message: result.error || 'Registration function failed',
-              details: result
-            }
-          }
-        }
-
-        console.log('RPC function succeeded:', result);
-        return { success: true, data: [{ id: result.id }] }
-      }
-      
-      // Other database errors
       return { 
         success: false, 
         error: { 
-          message: error.message || 'Database error occurred',
-          details: error
+          message: functionError.message || 'Failed to submit registration. Please try again.',
+          details: functionError
         }
       }
     }
 
-    console.log('Direct insert succeeded:', data);
-    return { success: true, data }
+    const result = functionData as { success: boolean; error?: string; id?: string; message?: string }
+    
+    if (!result.success) {
+      return { 
+        success: false, 
+        error: { 
+          message: result.error || 'Registration submission failed. Please try again.',
+          details: result
+        }
+      }
+    }
+
+    console.log('Registration succeeded:', result);
+    return { 
+      success: true, 
+      data: [{ id: result.id }],
+      message: result.message || 'Registration submitted successfully!'
+    }
+    
   } catch (error) {
     console.error('Unexpected error submitting registration:', error)
     return { 
       success: false, 
       error: { 
-        message: error instanceof Error ? error.message : 'An unexpected error occurred',
+        message: error instanceof Error ? error.message : 'An unexpected error occurred. Please try again.',
         details: error
       }
     }

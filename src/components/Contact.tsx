@@ -106,12 +106,20 @@ const Contact: React.FC = memo(() => {
     setIsSubmitting(true);
     
     try {
-      // EmailJS configuration - replace with your actual values
+      // EmailJS configuration using environment variables
+      const emailServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const emailTemplateId = import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE_ID;
+      const emailPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      if (!emailServiceId || !emailTemplateId || !emailPublicKey) {
+        throw new Error('EmailJS configuration missing. Please check your environment variables.');
+      }
+
       const result = await emailjs.sendForm(
-        'service_is90zgq',     // Your EmailJS service ID
-        'template_ru6p4jj',    // Your EmailJS template ID
+        emailServiceId,
+        emailTemplateId,
         form.current!,
-        'NpuiIORjT9qwwhnyK'    // Your EmailJS public key
+        emailPublicKey
       );
       
       console.log('Email sent successfully:', result.text);

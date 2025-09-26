@@ -23,7 +23,7 @@ const Footer: React.FC = memo(() => {
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
               <img 
-                src="/logos/full_logo_white.png" 
+                src="/logos/logo_white.png" 
                 alt="Telqai Logo" 
                 className="w-40 h-30 object-contain"
               />
