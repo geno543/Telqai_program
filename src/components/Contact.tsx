@@ -172,13 +172,13 @@ const Contact: React.FC = memo(() => {
             </span>
           </h2>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto font-medium leading-relaxed mb-8">
-            Ready to start your AI journey? Contact us or apply to join the Telqai program.
+            Ready to start your AI journey? Contact us or apply to join the Telqai program designed for Arab high schoolers and undergraduates.
           </p>
           
           {/* Join Program CTA Button */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
-              to="/join-program"
+              to="/join"
               className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white font-semibold rounded-xl shadow-glow hover:shadow-glow-intense transform hover:scale-105 transition-all duration-300 font-['Plus_Jakarta_Sans'] group"
             >
               <svg className="w-5 h-5 mr-2 group-hover:animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -335,7 +335,7 @@ const Contact: React.FC = memo(() => {
                   className={`glass-input w-full px-5 py-4 rounded-2xl text-slate-900 dark:text-white focus:glow-border-intense transition-all duration-300 ${
                     errors.interest ? 'border-red-500 focus:border-red-500' : ''
                   }`}
-                  placeholder="e.g., Student, Parent, Teacher, etc."
+                  placeholder="e.g., Student, Partner, Ambassador, etc."
                   required
                 />
                 {errors.interest && (
@@ -503,7 +503,7 @@ const Contact: React.FC = memo(() => {
                   <p className="text-cyan-800 dark:text-cyan-200 text-sm leading-relaxed">
                     <strong>Ready to join our program?</strong> Use our dedicated{' '}
                     <Link 
-                      to="/join-program" 
+                      to="/join" 
                       className="underline hover:text-cyan-600 dark:hover:text-cyan-300 transition-colors duration-300"
                     >
                       application form

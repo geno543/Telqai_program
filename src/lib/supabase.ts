@@ -14,15 +14,16 @@ export interface RegistrationData {
   country: string
   phone: string
   education_level: string
-  field_of_study: string
-  current_occupation: string
+  current_school: string
   used_ai_tools: string
-  ai_experience: string
+  ai_experience?: string
   motivation: string
   problem_solving: string
   reliable_internet: string
-  accommodations?: string
-  commitment_confirmation: string
+  program_commitment: string
+  additional_information?: string
+  accept_program_emails: boolean
+  subscribe_newsletter: boolean
   created_at?: string
 }
 

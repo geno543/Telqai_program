@@ -5,7 +5,7 @@ interface Sponsor {
   description: string;
   logo: string; // This will be a placeholder path that you can replace
   website: string;
-  type: 'platinum' | 'gold' | 'silver' | 'partner';
+  type: 'gold';
 }
 
 const Sponsors: React.FC = () => {
@@ -16,7 +16,7 @@ const Sponsors: React.FC = () => {
       description: "Leading technology solutions provider supporting AI education initiatives across the MENA region.",
       logo: "/sponsors/techcorp-logo.png", // Replace with actual logo path
       website: "https://techcorp.example.com",
-      type: "platinum"
+      type: "gold"
     },
     {
       name: "AI Innovation Hub",
@@ -37,27 +37,23 @@ const Sponsors: React.FC = () => {
       description: "Educational platform providing cutting-edge technology courses and resources.",
       logo: "/sponsors/digital-academy-logo.png", // Replace with actual logo path
       website: "https://digitalacademy.example.com",
-      type: "silver"
+      type: "gold"
     },
     {
       name: "Innovation Labs MENA",
       description: "Technology incubator supporting startups and educational initiatives in the Middle East.",
       logo: "/sponsors/innovation-labs-logo.png", // Replace with actual logo path
       website: "https://innovationlabs.example.com",
-      type: "silver"
+      type: "gold"
     },
     {
       name: "Youth Tech Initiative",
       description: "Government-backed program promoting technology education among young people.",
       logo: "/sponsors/youth-tech-logo.png", // Replace with actual logo path
       website: "https://youthtech.example.com",
-      type: "partner"
+      type: "gold"
     }
   ];
-
-  const getSponsorsByType = (type: string) => {
-    return sponsors.filter(sponsor => sponsor.type === type);
-  };
 
   const SponsorCard: React.FC<{ sponsor: Sponsor; size: 'large' | 'medium' | 'small' }> = ({ sponsor, size }) => {
     const sizeClasses = {
@@ -112,7 +108,7 @@ const Sponsors: React.FC = () => {
           <h2 className="text-4xl lg:text-5xl font-bold text-primary dark:text-white mb-6">
             Our{' '}
             <span className="bg-gradient-to-r from-accent-blue to-accent-green bg-clip-text text-transparent">
-              Sponsors & Partners
+              Sponsors
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
@@ -120,67 +116,20 @@ const Sponsors: React.FC = () => {
           </p>
         </div>
 
-        {/* Platinum Sponsors */}
-        {getSponsorsByType('platinum').length > 0 && (
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-center text-primary dark:text-white mb-8">
-              Platinum Sponsors
-            </h3>
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {getSponsorsByType('platinum').map((sponsor, index) => (
-                <SponsorCard key={index} sponsor={sponsor} size="large" />
-              ))}
-            </div>
+        {/* All Sponsors */}
+        <div className="mb-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sponsors.map((sponsor, index) => (
+              <SponsorCard key={index} sponsor={sponsor} size="medium" />
+            ))}
           </div>
-        )}
+        </div>
 
-        {/* Gold Sponsors */}
-        {getSponsorsByType('gold').length > 0 && (
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-center text-primary dark:text-white mb-8">
-              Gold Sponsors
-            </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {getSponsorsByType('gold').map((sponsor, index) => (
-                <SponsorCard key={index} sponsor={sponsor} size="medium" />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Silver Sponsors */}
-        {getSponsorsByType('silver').length > 0 && (
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-center text-primary dark:text-white mb-8">
-              Silver Sponsors
-            </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {getSponsorsByType('silver').map((sponsor, index) => (
-                <SponsorCard key={index} sponsor={sponsor} size="small" />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Partners */}
-        {getSponsorsByType('partner').length > 0 && (
-          <div className="mb-16">
-            <h3 className="text-2xl font-bold text-center text-primary dark:text-white mb-8">
-              Strategic Partners
-            </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {getSponsorsByType('partner').map((sponsor, index) => (
-                <SponsorCard key={index} sponsor={sponsor} size="small" />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Partnership Benefits */}
+        {/* Sponsorship Benefits */}
         <div className="bg-gradient-to-r from-primary/5 to-accent-blue/5 dark:from-primary/10 dark:to-accent-blue/10 rounded-2xl p-8 lg:p-12">
           <div className="text-center mb-8">
             <h3 className="text-3xl font-bold text-primary dark:text-white mb-4">
-              Why Partner With Us?
+              Why Sponsor Us?
             </h3>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Join us in shaping the future of AI education and empowering the next generation of innovators.
@@ -241,26 +190,8 @@ const Sponsors: React.FC = () => {
               }}
               className="bg-gradient-to-r from-accent-blue to-accent-green text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-200"
             >
-              Become a Partner
+              Become a Sponsor
             </button>
-          </div>
-        </div>
-
-        {/* Note about logo replacement */}
-        <div className="mt-12 p-6 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-          <div className="flex items-start space-x-3">
-            <svg className="w-6 h-6 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-            </svg>
-            <div>
-              <h4 className="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
-                Logo Placeholders
-              </h4>
-              <p className="text-yellow-700 dark:text-yellow-300 text-sm">
-                The sponsor logos shown are placeholders. Please replace the logo paths in the sponsors array with your actual sponsor logo images.
-                You can add your logo files to the <code className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">public/sponsors/</code> folder.
-              </p>
-            </div>
           </div>
         </div>
       </div>

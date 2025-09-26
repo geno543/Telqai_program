@@ -7,6 +7,7 @@ import Footer from './components/Footer'
 // Lazy load heavy components to improve initial load time
 const About = lazy(() => import('./components/About'));
 const Curriculum = lazy(() => import('./components/Curriculum'));
+const Sponsors = lazy(() => import('./components/Sponsors'));
 const Contact = lazy(() => import('./components/Contact'));
 const JoinProgram = lazy(() => import('./components/JoinProgram'));
 
@@ -29,6 +30,9 @@ const HomePage = () => {
         <Curriculum />
       </Suspense>
       <Suspense fallback={<LoadingSpinner />}>
+        <Sponsors />
+      </Suspense>
+      <Suspense fallback={<LoadingSpinner />}>
         <Contact />
       </Suspense>
     </>
@@ -42,7 +46,7 @@ function App() {
         <Navigation />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/join-program" element={
+          <Route path="/join" element={
             <Suspense fallback={<LoadingSpinner />}>
               <JoinProgram />
             </Suspense>

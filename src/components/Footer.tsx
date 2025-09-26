@@ -23,14 +23,13 @@ const Footer: React.FC = memo(() => {
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
               <img 
-                src="/logo_program/logo_program_dark-removebg-preview.png" 
+                src="/logos/full_logo_white.png" 
                 alt="Telqai Logo" 
-                className="w-20 h-20 object-contain"
+                className="w-40 h-30 object-contain"
               />
-
             </div>
             <p className="text-slate-300 mb-8 max-w-md leading-relaxed font-light">
-              Selective AI automation program organized by STEM Computer Science Club, teaching n8n and AI agents to Arab high school students through intensive 4-week training.
+              AI automation program organized by STEM Computer Science Club, teaching n8n and AI agents to Arab high school and university students through intensive 4-week training.
             </p>
             <div className="flex space-x-4">
               {/* <a href="https://twitter.com/stem_cs_club" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-white/10 hover:bg-cyan-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-lg border border-white/10">

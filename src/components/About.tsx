@@ -16,7 +16,7 @@ const About: React.FC = memo(() => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: 'assistant',
-      content: 'مرحباً! أنا تلقائي (Telqai Assistant) 🤖\n\nيمكنني مساعدتك في أي أسئلة حول:\n• برنامج أتمتة الذكاء الاصطناعي (4 أسابيع، 8 جلسات)\n• المنهج الدراسي وتقنيات n8n\n• عملية القبول الانتقائية\n• شهادات البرنامج والمشاريع\n\nHello! I\'m Telqai (تلقائي) 🤖\n\nI can help you with questions about:\n• AI Automation Program (4 weeks, 8 sessions)\n• Curriculum and n8n technologies\n• Selective admission process\n• Program certificates and projects\n\nكيف يمكنني مساعدتك؟ How can I help you?',
+      content: 'مرحباً! أنا تلقائي (Telqai Assistant) 🤖\n\nيمكنني مساعدتك في أي أسئلة حول:\n• برنامج أتمتة الذكاء الاصطناعي (4 أسابيع، 8 جلسات)\n• المنهج الدراسي وتقنيات n8n\n• عملية القبول\n• شهادات البرنامج والمشاريع\n\nHello! I\'m Telqai (تلقائي) 🤖\n\nI can help you with questions about:\n• AI Automation Program (4 weeks, 8 sessions)\n• Curriculum and n8n technologies\n• Admission process\n• Program certificates and projects\n\nكيف يمكنني مساعدتك؟ How can I help you?',
       timestamp: new Date()
     }
   ]);
@@ -77,8 +77,8 @@ PROGRAM INFO:
 تلقائي - برنامج أتمتة الذكاء الاصطناعي انتقائي لطلاب الثانوية العرب
 4 أسابيع، 8 جلسات، ساعتان لكل جلسة، تدريس باللغة العربية
 
-Telqai - Selective AI automation program for Arab high school students
-4 weeks, 8 sessions, 2 hours each, taught in Arabic
+Telqai - AI automation program for Arab high school and university students
+4 weeks, 8 sessions, 2+ hours each.
 
 SESSIONS:
 1. مقدمة وكلاء الذكاء الاصطناعي / AI Agents Introduction
@@ -92,7 +92,7 @@ SESSIONS:
 
 FEATURES:
 - تعليم باللغة العربية، برنامج انتقائي، شهادة مهنية
-- Arabic instruction, selective program, professional certificate
+- Arabic instruction, professional certificate
 - تطبيقات عملية مع n8n والذكاء الاصطناعي
 - Hands-on projects with n8n and AI automation
 
@@ -172,20 +172,22 @@ Answer questions directly and helpfully about the program.`
       image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDIwMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50Ml9saW5lYXJfMTAwXzEwMCIgeDE9IjAiIHkxPSIwIiB4Mj0iMjAwIiB5Mj0iMTYwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiMzQjgyRjYiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNjM2NkYxIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNjAiIGZpbGw9InVybCgjcGFpbnQyX2xpbmVhcl8xMDBfMTAwKSIgb3BhY2l0eT0iMC4xIi8+CjxyZWN0IHg9IjQwIiB5PSIyMCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSI4MCIgcng9IjgiIGZpbGw9IiMzQjgyRjYiIG9wYWNpdHk9IjAuMiIvPgo8Y2lyY2xlIGN4PSI3MCIgY3k9IjQwIiByPSI0IiBmaWxsPSIjM0I4MkY2Ii8+CjxjaXJjbGUgY3g9IjEzMCIgY3k9IjQwIiByPSI0IiBmaWxsPSIjM0I4MkY2Ii8+CjxyZWN0IHg9Ijg1IiB5PSI2MCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjE1IiByeD0iNCIgZmlsbD0iIzNCODJGNiIgb3BhY2l0eT0iMC42Ii8+CjxyZWN0IHg9Ijc1IiB5PSIxMTAiIHdpZHRoPSI1MCIgaGVpZ2h0PSI0IiBmaWxsPSIjM0I4MkY2IiBvcGFjaXR5PSIwLjgiLz4KPGxpbmUgeDE9IjEwMCIgeTE9IjEwMCIgeDI9IjEwMCIgeTI9IjExNCIgc3Ryb2tlPSIjM0I4MkY2IiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+"
     },
     {
-      title: 'Global Impact',
-      description: 'Worldwide reach',
+      title: 'AI Automation Tools',
+      description: 'Industry-standard platforms',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" strokeWidth={2} />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h8m-4-4v8" opacity="0.6" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 9l-3 3-3-3" fill="none" />
-          <circle cx="8" cy="8" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="16" cy="8" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="8" cy="16" r="1" fill="currentColor" opacity="0.4" />
-          <circle cx="16" cy="16" r="1" fill="currentColor" opacity="0.4" />
+          <rect x="3" y="3" width="6" height="6" rx="1" strokeWidth={2} />
+          <rect x="15" y="3" width="6" height="6" rx="1" strokeWidth={2} />
+          <rect x="3" y="15" width="6" height="6" rx="1" strokeWidth={2} />
+          <rect x="15" y="15" width="6" height="6" rx="1" strokeWidth={2} />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 6h6M6 9v6M9 18h6M18 9v6" opacity="0.6" />
+          <circle cx="6" cy="6" r="1" fill="currentColor" />
+          <circle cx="18" cy="6" r="1" fill="currentColor" />
+          <circle cx="6" cy="18" r="1" fill="currentColor" />
+          <circle cx="18" cy="18" r="1" fill="currentColor" />
         </svg>
       ),
-      image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDIwMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50M19saW5lYXJfMTAwXzEwMCIgeDE9IjAiIHkxPSIwIiB4Mj0iMjAwIiB5Mj0iMTYwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiMxMEI5ODEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjM0I4MkY2Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNjAiIGZpbGw9InVybCgjcGFpbnQzX2xpbmVhcl8xMDBfMTAwKSIgb3BhY2l0eT0iMC4xIi8+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjgwIiByPSI1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMTBCOTgxIiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuOCIvPgo8Y2lyY2xlIGN4PSI4MCIgY3k9IjUwIiByPSI0IiBmaWxsPSIjMTBCOTgxIiBvcGFjaXR5PSIwLjgiLz4KPGNpcmNsZSBjeD0iMTIwIiBjeT0iNTAiIHI9IjQiIGZpbGw9IiMxMEI5ODEiIG9wYWNpdHk9IjAuOCIvPgo8Y2lyY2xlIGN4PSI4MCIgY3k9IjExMCIgcj0iNCIgZmlsbD0iIzEwQjk4MSIgb3BhY2l0eT0iMC44Ii8+CjxjaXJjbGUgY3g9IjEyMCIgY3k9IjExMCIgcj0iNCIgZmlsbD0iIzEwQjk4MSIgb3BhY2l0eT0iMC44Ii8+CjxsaW5lIHgxPSI4MCIgeTE9IjUwIiB4Mj0iMTIwIiB5Mj0iNTAiIHN0cm9rZT0iIzEwQjk4MSIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjYiLz4KPGxpbmUgeDE9IjgwIiB5MT0iMTEwIiB4Mj0iMTIwIiB5Mj0iMTEwIiBzdHJva2U9IiMxMEI5ODEiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC42Ii8+CjxsaW5lIHgxPSI4MCIgeTE9IjUwIiB4Mj0iODAiIHkyPSIxMTAiIHN0cm9rZT0iIzEwQjk4MSIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjYiLz4KPGxpbmUgeDE9IjEyMCIgeTE9IjUwIiB4Mj0iMTIwIiB5Mj0iMTEwIiBzdHJva2U9IiMxMEI5ODEiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC42Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTQwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiMxMEI5ODEiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkdsb2JhbCBOZXR3b3JrPC90ZXh0Pgo8L3N2Zz4="
+      image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDIwMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50M19saW5lYXJfMTAwXzEwMCIgeDE9IjAiIHkxPSIwIiB4Mj0iMjAwIiB5Mj0iMTYwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiM4QjVDRjYiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjM0I4MkY2Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIxNjAiIGZpbGw9InVybCgjcGFpbnQzX2xpbmVhcl8xMDBfMTAwKSIgb3BhY2l0eT0iMC4xIi8+CjxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iOCIgZmlsbD0iIzhCNUNGNiIgb3BhY2l0eT0iMC4zIi8+CjxyZWN0IHg9IjEzMCIgeT0iMjAiIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgcng9IjgiIGZpbGw9IiM4QjVDRjYiIG9wYWNpdHk9IjAuMyIvPgo8cmVjdCB4PSIyMCIgeT0iOTAiIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgcng9IjgiIGZpbGw9IiM4QjVDRjYiIG9wYWNpdHk9IjAuMyIvPgo8cmVjdCB4PSIxMzAiIHk9IjkwIiB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHJ4PSI4IiBmaWxsPSIjOEI1Q0Y2IiBvcGFjaXR5PSIwLjMiLz4KPGxpbmUgeDE9IjcwIiB5MT0iNDUiIHgyPSIxMzAiIHkyPSI0NSIgc3Ryb2tlPSIjOEI1Q0Y2IiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuNiIvPgo8bGluZSB4MT0iNDUiIHkxPSI3MCIgeDI9IjQ1IiB5Mj0iOTAiIHN0cm9rZT0iIzhCNUNGNiIgc3Ryb2tlLXdpZHRoPSIyIiBvcGFjaXR5PSIwLjYiLz4KPGxpbmUgeDE9IjcwIiB5MT0iMTE1IiB4Mj0iMTMwIiB5Mj0iMTE1IiBzdHJva2U9IiM4QjVDRjYiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC42Ii8+CjxsaW5lIHgxPSIxNTUiIHkxPSI3MCIgeDI9IjE1NSIgeTI9IjkwIiBzdHJva2U9IiM4QjVDRjYiIHN0cm9rZS13aWR0aD0iMiIgb3BhY2l0eT0iMC42Ii8+CjxjaXJjbGUgY3g9IjQ1IiBjeT0iNDUiIHI9IjMiIGZpbGw9IiM4QjVDRjYiLz4KPGNpcmNsZSBjeD0iMTU1IiBjeT0iNDUiIHI9IjMiIGZpbGw9IiM4QjVDRjYiLz4KPGNpcmNsZSBjeD0iNDUiIGN5PSIxMTUiIHI9IjMiIGZpbGw9IiM4QjVDRjYiLz4KPGNpcmNsZSBjeD0iMTU1IiBjeT0iMTE1IiByPSIzIiBmaWxsPSIjOEI1Q0Y2Ii8+Cjwvc3ZnPg=="
     },
   ], []);
 
@@ -236,7 +238,7 @@ Answer questions directly and helpfully about the program.`
               </span>
             </h2>
             <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 leading-relaxed font-medium">
-              Learn AI automation and n8n through our selective 4-week intensive program for Arab high school students.
+              Learn AI automation and n8n through our 4-week intensive program for Arab high school and university students.
             </p>
             
             {/* Quick Stats */}
@@ -479,7 +481,7 @@ Answer questions directly and helpfully about the program.`
         <div className="text-center animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
           <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-8 font-['Plus_Jakarta_Sans']">
             Built For 
-            <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-600 bg-clip-text text-transparent"> Arab High Schoolers</span>
+            <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-600 bg-clip-text text-transparent"> Arab High Schoolers & Undergraduates</span>
           </h3>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="glass-card rounded-2xl p-6 hover-lift glow-border group hover-scale relative overflow-hidden">

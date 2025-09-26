@@ -13,112 +13,119 @@ interface CurriculumModule {
 const Curriculum: React.FC = () => {
   const [selectedModule, setSelectedModule] = useState<number>(0);
 
-  // Telqai: AI Automation with n8n and AI Agents - 8-Session Syllabus
+  // TelqAI: AI Automation Program - 8-Session Syllabus
   const curriculumModules: CurriculumModule[] = [
     {
       week: 1,
-      title: "Introduction to AI Agents and Automation Concepts",
-      description: "Understanding the fundamental differences between AI Agents, LLMs, and traditional automation workflows for selected students.",
+      title: "Introduction to AI Agents & Automation Fundamentals",
+      description: "Understand the core differences between a static LLM and an active AI Agent. Differentiate between traditional automation and AI-driven workflows.",
       topics: [
-        "Understanding AI Agents vs. Large Language Models (LLM)",
-        "Differences between AI Agents and Workflows (Anthropic examples)",
-        "Prompt Chaining and Smart Workflow Exploration",
-        "Key uniqueness, risks, and mitigation of AI Agents",
-        "Comparing Traditional Automation, AI Automation, and AI Agents"
+        "Introduction: Calculator vs Robot - Static tools vs autonomous agents",
+        "LLM vs AI Agent: Core components (LLM, Memory, Tools)",
+        "Workflows vs Agentic Systems: Traditional vs AI-driven workflows",
+        "Hands-on: Pre-built AI agent for news article summarization",
+        "Understanding data flow between nodes in n8n"
       ],
-      duration: "2 hours",
-      project: "Design your first AI agent concept and automation strategy"
+      duration: "120 minutes",
+      project: "Identify automation tasks vs AI agent tasks and analyze workflow components"
     },
     {
       week: 1,
-      title: "API Fundamentals and Getting Started with n8n",
-      description: "Master API integration and set up your n8n development environment for AI automation.",
+      title: "APIs & n8n Self-Hosting",
+      description: "Understand what an API is and successfully install n8n on your local machine using Docker.",
       topics: [
-        "How APIs work inside AI Agents: client-server overview",
-        "OpenAI API signup, billing, and key setup",
-        "n8n overview: self-hosted vs cloud, installation, and registration",
-        "Installing and updating n8n self-hosted via npm"
+        "APIs explained: Restaurant analogy (menu, client, waiter, kitchen)",
+        "Setting up OpenAI API account and generating API keys",
+        "Cloud vs Self-Hosted n8n: pros, cons, and decision factors",
+        "Docker installation and n8n setup with environment variables",
+        "Initial n8n configuration and interface exploration"
       ],
-      duration: "2 hours",
-      project: "Set up complete n8n environment and create first API integration"
+      duration: "120 minutes",
+      project: "Successfully install and configure self-hosted n8n instance with API access"
     },
     {
       week: 2,
-      title: "Building Basic Automations in n8n",
-      description: "Create practical automation workflows integrating email, Google Sheets, and chatbot functionality.",
+      title: "Building Simple Automations",
+      description: "Build a complete, functional workflow from scratch using webhook triggers and multiple nodes.",
       topics: [
-        "n8n trigger types and chatbot automation with the Gmail API",
-        "Practical automation examples: email, Google Sheets, smart workflows",
-        "Managing n8n projects: duplicate, download, import",
-        "Workflow debugging and optimization techniques"
+        "Workflow triggers: Manual, Webhook, and Scheduled triggers",
+        "Email-to-Sheet automation with Gmail and Google Sheets integration",
+        "JavaScript code node for data parsing and extraction",
+        "Workflow debugging using execution history",
+        "Authentication with Google APIs and troubleshooting"
       ],
-      duration: "2 hours",
-      project: "Build an automated email response system with Google Sheets integration"
+      duration: "120 minutes",
+      project: "Create email-to-spreadsheet automation with webhook integration"
     },
     {
       week: 2,
-      title: "Advanced AI Automation Workflows",
-      description: "Implement sophisticated AI workflows for business applications using various LLM providers.",
+      title: "Advanced AI Automation",
+      description: "Integrate AI into existing workflows to perform data analysis and make intelligent decisions.",
       topics: [
-        "Summarizing support tickets with AI agents",
-        "Sentiment analysis and data export workflows",
-        "Integrating open-source LLMs with n8n: considerations",
-        "Using DeepSeek, Ollama, and other open-source LLMs with n8n"
+        "Adding intelligence to workflows with LLM nodes",
+        "Sentiment analysis automation for customer reviews",
+        "Prompt engineering: crafting effective AI instructions",
+        "Data flow from Google Sheets through AI analysis back to sheets",
+        "Testing and validating AI-powered workflow results"
       ],
-      duration: "2 hours",
-      project: "Create an intelligent support ticket system with sentiment analysis"
+      duration: "120 minutes",
+      project: "Build sentiment analysis agent for customer review processing"
     },
     {
       week: 3,
-      title: "Deep Dive into AI Agent Components and APIs",
-      description: "Master advanced AI agent architecture and multi-provider API integration.",
+      title: "Advanced AI Agents & Integrations",
+      description: "Understand advanced agentic concepts like memory and connect to various LLM providers.",
       topics: [
-        "Chain node basics, LLM message types, and parameters",
-        "API pricing, usage details, and integration with Anthropic, DeepSeek, Gemini, Groq",
-        "Working with AI Agent memory nodes in n8n",
-        "Building smart sales and customer-response chatbots"
+        "Agent memory: Simple Memory and Memory Buffer nodes",
+        "LLM ecosystem: Proprietary vs open-source models",
+        "OpenRouter integration for multi-model access",
+        "Building memory-aware conversational chatbots",
+        "System prompts and persona customization"
       ],
-      duration: "2 hours",
-      project: "Develop a multi-provider AI sales chatbot with memory capabilities"
+      duration: "120 minutes",
+      project: "Create memory-aware chatbot with custom persona and multi-turn conversations"
     },
     {
       week: 3,
-      title: "Retrieval-Augmented Generation (RAG) and Vector Databases",
-      description: "Build professional-grade RAG systems and implement vector database solutions.",
+      title: "RAG & Vector Databases",
+      description: "Introduce Retrieval-Augmented Generation and demonstrate access to private, up-to-date information.",
       topics: [
-        "Introduction to RAG and feeding LLMs without retraining (fine-tuning)",
-        "Top vector databases in 2025",
-        "Building professional-grade RAG chatbots with n8n",
-        "Automating file uploads and accuracy optimization for RAG AI Agents"
+        "LLM limitations and RAG as solution for private data",
+        "Vector databases: Pinecone, Weaviate, and embeddings concept",
+        "Building RAG chatbot with PDF document knowledge",
+        "Document ingestion, vectorization, and retrieval processes",
+        "Context-aware AI responses using external knowledge"
       ],
-      duration: "2 hours",
-      project: "Create a knowledge-base RAG chatbot with automated document processing"
+      duration: "120 minutes",
+      project: "Build RAG chatbot that answers questions about uploaded PDF documents"
     },
     {
       week: 4,
-      title: "Hosting, Self-Hosting Challenges, and Multi-Agent Systems",
-      description: "Deploy and manage complex multi-agent systems with enterprise-grade hosting solutions.",
+      title: "Self-Hosting & Multi-Agent Systems",
+      description: "Understand deployment practicalities and the concept of multi-agent collaboration.",
       topics: [
-        "Overview of server hosting types for n8n",
-        "Troubleshooting WhatsApp and Telegram issues in self-hosting",
-        "Updating n8n self-hosting inside Docker",
-        "WhatsApp multi-agent orchestrator and securing WhatsApp agents"
+        "VPS deployment and 24/7 agent hosting considerations",
+        "Security: reverse proxy, SSL certificates, and Docker updates",
+        "Multi-Agent Systems: orchestrator and specialist agent design",
+        "Sub-workflows and agent delegation patterns",
+        "Router agent directing tasks to specialized agents"
       ],
-      duration: "2 hours",
-      project: "Deploy and secure a multi-agent WhatsApp automation system"
+      duration: "120 minutes",
+      project: "Design multi-agent system with router directing customer service vs technical support"
     },
     {
       week: 4,
-      title: "Cutting-edge Models, Integration, and Business Automation",
-      description: "Implement advanced business automation solutions and prepare for real-world deployment.",
+      title: "Business Automation & Final Project",
+      description: "Apply all learned concepts to a comprehensive, real-world business problem with voice and image integration.",
       topics: [
-        "Designing AI agents with GPT-OSS",
-        "Automating meetings and business tasks (text and voice)",
-        "Meta Business Account setup for WhatsApp API",
-        "n8n community nodes and final project guidance"
+        "Voice-to-text and multimodal LLM integration",
+        "WhatsApp Business API and Meta account setup",
+        "Final project requirements and design patterns",
+        "Voice message processing and image analysis workflows",
+        "Project presentation and real-world deployment strategies"
       ],
-      duration: "2 hours",
-      project: "Complete business automation solution with voice and text capabilities"
+      duration: "120 minutes",
+      project: "Complete business automation solution with AI agents, voice, and messaging integration"
     }
   ];
 
@@ -151,14 +158,13 @@ const Curriculum: React.FC = () => {
             <span className="text-slate-800 dark:text-slate-100">Curriculum</span>
           </h2>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed font-medium">
-            An intensive 4-week AI automation program for selected Arab high school students. 
-            +8 comprehensive sessions of 2 hours each, taught in Arabic.
+            An intensive 8-session cohort-based program empowering high school and undergraduate students across the MENA region with hands-on AI automation skills.
           </p>
           <div className="mt-6 inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-full border border-amber-200 dark:border-amber-700">
             <svg className="w-5 h-5 text-amber-600 dark:text-amber-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
-            <span className="text-amber-700 dark:text-amber-300 font-semibold">Selective Program • Arabic Instruction</span>
+            <span className="text-amber-700 dark:text-amber-300 font-semibold">Arabic Instruction</span>
           </div>
         </div>
 
@@ -170,8 +176,8 @@ const Curriculum: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-3 font-['Plus_Jakarta_Sans']">4 Weeks</h3>
-            <p className="text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">Intensive selective AI automation program for Arab high schoolers</p>
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-3 font-['Plus_Jakarta_Sans']">8 Sessions</h3>
+            <p className="text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">Cohort-based seasonal program for MENA high schoolers and undergraduates</p>
           </div>
           
           <div className="text-center glass-card rounded-3xl p-8 hover-lift glow-border animate-scale-in group hover-scale" style={{ animationDelay: '0.1s' }}>
@@ -180,8 +186,8 @@ const Curriculum: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent mb-3 font-['Plus_Jakarta_Sans']">+20 Hours</h3>
-            <p className="text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">+8 intensive sessions × 2 hours each with hands-on practical applications</p>
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-blue-600 bg-clip-text text-transparent mb-3 font-['Plus_Jakarta_Sans']">16+ Hours</h3>
+            <p className="text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">8 intensive sessions of 120 minutes each with hands-on practical applications</p>
           </div>
           
           <div className="text-center glass-card rounded-3xl p-8 hover-lift glow-border animate-scale-in group hover-scale" style={{ animationDelay: '0.2s' }}>
@@ -191,7 +197,7 @@ const Curriculum: React.FC = () => {
               </svg>
             </div>
             <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-3 font-['Plus_Jakarta_Sans']">8 Projects</h3>
-            <p className="text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">Real-world AI automation projects building professional portfolio solutions</p>
+            <p className="text-slate-600 dark:text-slate-300 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">Hands-on projects from basic automations to advanced multi-agent business solutions</p>
           </div>
         </div>
 
@@ -220,10 +226,10 @@ const Curriculum: React.FC = () => {
                         {module.title}
                       </div>
                     </div>
-                    <div className={`text-xs px-3 py-1 rounded-full font-medium transition-all duration-300 ${
+                    <div className={`text-xs px-3 py-1 rounded-full font-medium transition-all duration-300 min-w-fit whitespace-nowrap flex-shrink-0 ${
                       selectedModule === index
                         ? 'bg-white/20 text-white'
-                        : 'bg-slate-100/80 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300'
+                        : 'bg-slate-200/90 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300'
                     }`}>
                       {module.duration}
                     </div>
@@ -244,7 +250,7 @@ const Curriculum: React.FC = () => {
                   <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent font-['Plus_Jakarta_Sans']">
                     Session {selectedModule + 1}
                   </h3>
-                  <span className="glass-tag bg-gradient-to-r from-indigo-100 to-violet-100 dark:from-indigo-900/50 dark:to-violet-900/50 text-indigo-600 dark:text-indigo-400 px-4 py-2 rounded-full text-sm font-semibold shadow-glow">
+                  <span className="glass-tag bg-gradient-to-r from-cyan-100 to-blue-100 dark:from-indigo-900/50 dark:to-violet-900/50 text-cyan-700 dark:text-indigo-300 px-4 py-2 rounded-full text-sm font-semibold shadow-glow border border-cyan-200/60 dark:border-indigo-700/50">
                     {curriculumModules[selectedModule].duration}
                   </span>
                 </div>
@@ -295,21 +301,21 @@ const Curriculum: React.FC = () => {
             
             <div className="relative z-10">
               <h3 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 via-violet-600 to-blue-600 bg-clip-text text-transparent mb-6 font-['Plus_Jakarta_Sans']">
-                Ready to Apply for Our Selective Program?
+                Ready to Apply for Our Program?
               </h3>
               <p className="text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
-                Join our carefully selected group of Arab high school students learning AI automation. 
-                Apply now for this intensive 4-week program with expert instruction in Arabic.
+                Join our cohort-based program designed to democratize AI education across the MENA region. 
+                Learn to build, manage, and deploy AI agents using no-code tools with expert instruction.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
                 <Link
-                  to="/join-program"
-                  className="glass-button glass-button-primary px-10 py-4 rounded-2xl font-semibold text-lg ripple-effect hover-scale hover-glow inline-block text-center"
+                  to="/join"
+                  className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 dark:from-indigo-600 dark:to-violet-600 dark:hover:from-indigo-700 dark:hover:to-violet-700 text-white px-10 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block text-center"
                 >
                   Apply Now
                 </Link>
                 <div className="text-sm text-slate-500 dark:text-slate-400">
-                   Selective admission • Professional certification
+                   Professional certification
                 </div>
               </div>
             </div>

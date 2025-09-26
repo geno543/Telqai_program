@@ -17,7 +17,7 @@ const Hero: React.FC = memo(() => {
   }), []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-32">
+    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-32">
       {/* 3D Spline Background */}
       <div className="absolute inset-0 z-0">
         <Spline
@@ -30,7 +30,7 @@ const Hero: React.FC = memo(() => {
         {/* Custom Hero-specific Box replacing watermark */}
         <div className="absolute bottom-4 right-4 z-[999]">
           <Link 
-            to="/join-program"
+            to="/join"
             className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-xl p-3 max-w-xs hover-lift group transition-all duration-300 hover:scale-105 shadow-lg border border-white/20 block"
           >
             <div className="flex items-center space-x-2">
@@ -43,7 +43,7 @@ const Hero: React.FC = memo(() => {
               {/* Message */}
               <div className="text-xs text-slate-800 dark:text-slate-200 leading-tight">
                 <div className="font-semibold text-cyan-400 dark:text-cyan-400">Apply Now</div>
-                <div className="opacity-80">Selective Program</div>
+                <div className="opacity-80">AI Automation Program</div>
               </div>
             </div>
             {/* Progress indicator */}
@@ -67,7 +67,7 @@ const Hero: React.FC = memo(() => {
                 {/* Badge */}
                 <div className="inline-flex items-center px-6 py-3 bg-white/30 backdrop-blur-md border border-white/40 rounded-full text-white text-sm font-medium shadow-lg">
                   <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3 animate-pulse"></div>
-                  Selective AI Automation Program for Arab High Schoolers
+                  AI Automation Program for Arab High Schoolers & Undergraduates
                 </div>
 
                 {/* Main Heading with enhanced readability */}
@@ -88,7 +88,7 @@ const Hero: React.FC = memo(() => {
                   
                   <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 mx-auto max-w-4xl">
                     <p className="text-xl lg:text-2xl text-white/95 leading-relaxed font-light">
-                      Master AI automation with n8n and AI agents in our selective 4-week intensive program designed specifically for Arab high school students.
+                      Master AI automation with n8n and AI agents in our 4-week intensive program designed specifically for Arab high school and university students.
                     </p>
                   </div>
                 </div>
@@ -96,7 +96,7 @@ const Hero: React.FC = memo(() => {
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <Link
-                    to="/join-program"
+                    to="/join"
                     className="bg-gradient-to-r from-cyan-400 to-cyan-500 hover:from-cyan-500 hover:to-cyan-600 px-8 py-4 rounded-2xl text-white font-semibold text-lg hover-lift ripple-effect group transition-smooth flex items-center justify-center space-x-3 shadow-xl border border-white/20"
                   >
                     <span>Join Program</span>

@@ -75,16 +75,18 @@ const Navigation: React.FC = memo(() => {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         <div className="flex justify-between items-center h-16">
           {/* Logo with cyan color transformation */}
-          <div className="flex items-center space-x-3 group cursor-pointer">
+          <button 
+            onClick={() => scrollToSection('#hero')}
+            className="flex items-center space-x-3 group cursor-pointer"
+          >
             <div className="relative">
               <img 
-                src="/logo_program/logo_program_dark-removebg-preview.png" 
+                src={isDarkMode ? "/logos/logo_white.png" : "/logos/logo_dark.png"} 
                 alt="Telqai Logo"
                 className="w-28 h-28 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-lg"
-              
               />
             </div>
-          </div>
+          </button>
 
           {/* Desktop Navigation - more compact */}
           <div className="hidden md:flex items-center space-x-2">
@@ -129,7 +131,7 @@ const Navigation: React.FC = memo(() => {
 
             {/* CTA Button - compact */}
             <Link
-              to="/join-program"
+              to="/join"
               className="relative px-4 py-2 ml-3 rounded-lg font-semibold transition-all duration-300 group overflow-hidden bg-gradient-to-r from-cyan-400 to-cyan-500 text-white hover:from-cyan-500 hover:to-cyan-600 text-sm inline-block"
               style={{
                 boxShadow: '0 4px 12px rgba(79, 70, 229, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
@@ -204,7 +206,7 @@ const Navigation: React.FC = memo(() => {
                 
                 {/* Mobile CTA Button */}
                 <Link
-                  to="/join-program"
+                  to="/join"
                   className="block w-full text-center px-4 py-3 mt-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-white rounded-xl font-semibold transition-all duration-300 hover:from-cyan-500 hover:to-cyan-600"
                   style={{
                     boxShadow: '0 4px 16px rgba(79, 70, 229, 0.2)'
