@@ -141,7 +141,7 @@ const JoinProgram: React.FC = memo(() => {
       // Only update if phone doesn't already have the correct country code
       if (!currentPhone.startsWith(countryCode + ' ')) {
         const updatedPhone = getPhoneWithCountryCode(currentPhone, formData.country);
-        setFormData(prev => ({ ...prev, phone: updatedPhone }));
+        setFormData((prev: typeof formData) => ({ ...prev, phone: updatedPhone }));
       }
     }
   }, [formData.country]);

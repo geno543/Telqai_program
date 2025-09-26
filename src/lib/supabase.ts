@@ -43,10 +43,17 @@ export const submitRegistration = async (formData: RegistrationData) => {
           city: formData.city,
           country: formData.country,
           phone: formData.phone,
+          education_level: formData.education_level,
+          current_school: formData.current_school,
+          used_ai_tools: formData.used_ai_tools,
+          ai_experience: formData.ai_experience,
+          motivation: formData.motivation,
           problem_solving: formData.problem_solving,
           reliable_internet: formData.reliable_internet,
-          accommodations: formData.accommodations,
-          commitment_confirmation: formData.commitment_confirmation
+          program_commitment: formData.program_commitment,
+          additional_information: formData.additional_information,
+          accept_program_emails: formData.accept_program_emails,
+          subscribe_newsletter: formData.subscribe_newsletter
         }
       ])
       .select()
@@ -66,10 +73,17 @@ export const submitRegistration = async (formData: RegistrationData) => {
             p_city: formData.city,
             p_country: formData.country,
             p_phone: formData.phone,
+            p_education_level: formData.education_level,
+            p_current_school: formData.current_school,
+            p_used_ai_tools: formData.used_ai_tools,
+            p_ai_experience: formData.ai_experience,
+            p_motivation: formData.motivation,
             p_problem_solving: formData.problem_solving,
             p_reliable_internet: formData.reliable_internet,
-            p_accommodations: formData.accommodations,
-            p_commitment_confirmation: formData.commitment_confirmation
+            p_program_commitment: formData.program_commitment,
+            p_additional_information: formData.additional_information,
+            p_accept_program_emails: formData.accept_program_emails,
+            p_subscribe_newsletter: formData.subscribe_newsletter
           })
 
         if (functionError) {
