@@ -929,7 +929,7 @@ const JoinProgram: React.FC = memo(() => {
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-8 space-y-6">
+            <div className="space-y-6">
               <h4 className="text-xl font-semibold text-white mb-4">Communication Preferences</h4>
               
               <div className="flex items-start space-x-4">
@@ -939,7 +939,7 @@ const JoinProgram: React.FC = memo(() => {
                   name="acceptProgramEmails"
                   checked={formData.acceptProgramEmails}
                   onChange={handleInputChange}
-                  className="mt-1 w-5 h-5 text-cyan-600 bg-transparent border-2 border-white/30 rounded focus:ring-cyan-500 focus:ring-2"
+                  className="mt-1 w-5 h-5 text-cyan-500 bg-transparent border-2 border-white/30 rounded focus:ring-cyan-400 focus:ring-2"
                   required
                 />
                 <label htmlFor="acceptProgramEmails" className="text-sm text-white/90 leading-relaxed">
@@ -961,7 +961,7 @@ const JoinProgram: React.FC = memo(() => {
                   name="subscribeNewsletter"
                   checked={formData.subscribeNewsletter}
                   onChange={handleInputChange}
-                  className="mt-1 w-5 h-5 text-cyan-600 bg-transparent border-2 border-white/30 rounded focus:ring-cyan-500 focus:ring-2"
+                  className="mt-1 w-5 h-5 text-cyan-500 bg-transparent border-2 border-white/30 rounded focus:ring-cyan-400 focus:ring-2"
                 />
                 <label htmlFor="subscribeNewsletter" className="text-sm text-white/90 leading-relaxed">
                   <span className="font-medium">Subscribe to our newsletter (Optional)</span>
@@ -1138,14 +1138,14 @@ const JoinProgram: React.FC = memo(() => {
 
             {/* Form */}
             <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 sm:p-10 md:p-12 border border-white/20">
-              <form onSubmit={currentPhase === 4 ? handleSubmit : (e) => e.preventDefault()}>
+              <form onSubmit={(e) => e.preventDefault()}>
                 <div className="px-2">
                   {renderPhase()}
                 </div>
 
                 {/* Privacy Notice and Application Note */}
                 {currentPhase === 4 && (
-                  <div className="bg-blue-500/10 border border-blue-400/30 rounded-xl p-4 mb-6">
+                  <div className="bg-blue-500/10 mt-10 border border-blue-400/30 rounded-xl p-4 mb-6">
                     <div className="flex items-start space-x-3">
                       <div className="text-blue-400 mt-1">
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -1192,7 +1192,8 @@ const JoinProgram: React.FC = memo(() => {
                     </button>
                   ) : (
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={(e) => handleSubmit(e)}
                       disabled={isSubmitting}
                       className={`w-full sm:w-auto px-8 py-4 bg-gradient-to-r font-semibold rounded-xl transition-all duration-300 transform ${
                         isSubmitting 
@@ -1267,7 +1268,7 @@ const JoinProgram: React.FC = memo(() => {
                 </ul>
               </div>
               <p className="text-sm text-white/60">
-                Check your email (including spam folder) for updates. If you have questions, contact us at info@telqai.org
+                Check your email (including spam folder) for updates. If you have questions, contact us at telqAI@stemcsclub.org
               </p>
             </div>
             <button
