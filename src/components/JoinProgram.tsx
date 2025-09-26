@@ -1,6 +1,7 @@
 import React, { useState, useEffect, memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Spline from '@splinetool/react-spline';
+import emailjs from '@emailjs/browser';
 import { submitRegistration, type RegistrationData } from '../lib/supabase';
 
 // MENA countries list
@@ -535,6 +536,36 @@ const JoinProgram: React.FC = memo(() => {
       const result = await submitRegistration(registrationData);
       
       if (result.success) {
+        // Send confirmation email to applicant
+        try {
+          const emailParams = {
+            to_name: formData.fullName,
+            to_email: formData.email,
+            applicant_name: formData.fullName,
+            country: formData.country,
+            grade: formData.grade,
+            school: formData.currentSchool,
+            application_date: new Date().toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            }),
+            program_name: 'TelqAI Program'
+          };
+
+          await emailjs.send(
+            'service_is90zgq',     // EmailJS service ID (same as contact form)
+            'template_application_confirmation', // New template for application confirmations
+            emailParams,
+            'NpuiIORjT9qwwhnyK'    // EmailJS public key (same as contact form)
+          );
+          
+          console.log('Confirmation email sent successfully');
+        } catch (emailError) {
+          console.error('Failed to send confirmation email:', emailError);
+          // Don't fail the entire submission if email fails
+        }
+
         // Show success message and reset form
         setShowSuccessMessage(true);
         // Clear localStorage
@@ -1262,13 +1293,13 @@ const JoinProgram: React.FC = memo(() => {
                 <p className="font-semibold text-white mb-2">What happens next?</p>
                 <ul className="space-y-1 text-white/70">
                   <li>• Review period: 3-5 business days</li>
-                  <li>• You'll receive an email confirmation shortly</li>
+                  <li>• A confirmation email has been sent to your inbox</li>
                   <li>• Selected candidates will be contacted for next steps</li>
                   <li>• Program starts soon - stay tuned!</li>
                 </ul>
               </div>
               <p className="text-sm text-white/60">
-                Check your email (including spam folder) for updates. If you have questions, contact us at telqAI@stemcsclub.org
+                Check your email (including spam folder) for confirmation and updates. If you have questions, contact us at telqAI@stemcsclub.org
               </p>
             </div>
             <button

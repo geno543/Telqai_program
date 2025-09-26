@@ -17,7 +17,9 @@ The contact form is now configured to use EmailJS to send emails directly to **t
 4. Connect the **telqAI@stemcsclub.org** account
 5. Note down the **Service ID** (e.g., `service_abc123`)
 
-### 3. Create Email Template
+### 3. Create Email Templates
+
+#### Template 1: Contact Form (template_ru6p4jj)
 1. Go to "Email Templates" in the dashboard
 2. Click "Create New Template"
 3. Set up the template with these variables:
@@ -27,7 +29,21 @@ The contact form is now configured to use EmailJS to send emails directly to **t
    - `{{interest}}` - Contact type (student/parent/teacher)
    - `{{phone}}` - Phone number (optional)
 
-### 4. Template Example
+#### Template 2: Application Confirmation (template_application_confirmation)
+1. Create another new template for application confirmations
+2. Set up the template with these variables:
+   - `{{to_name}}` - Applicant's full name
+   - `{{to_email}}` - Applicant's email
+   - `{{applicant_name}}` - Applicant's full name
+   - `{{country}}` - Applicant's country
+   - `{{grade}}` - Applicant's grade/education level
+   - `{{school}}` - Applicant's school
+   - `{{application_date}}` - Date of application
+   - `{{program_name}}` - Program name (TelqAI Program)
+
+### 4. Template Examples
+
+#### Contact Form Template
 ```
 Subject: New Contact Form Submission from {{from_name}}
 
@@ -45,6 +61,38 @@ Message:
 
 Best regards,
 Website Contact Form
+```
+
+#### Application Confirmation Template
+```
+Subject: Application Received - {{program_name}}
+
+Dear {{to_name}},
+
+Thank you for applying to the {{program_name}}! We have successfully received your application submitted on {{application_date}}.
+
+Application Details:
+- Name: {{applicant_name}}
+- Country: {{country}}
+- Education Level: {{grade}}
+- School: {{school}}
+
+What happens next?
+• Review period: 3-5 business days
+• Our admissions committee will carefully evaluate your application
+• Selected candidates will be contacted for next steps
+• Program starts soon - stay tuned!
+
+Please check your email regularly (including spam folder) for updates. If you have any questions, feel free to contact us at telqAI@stemcsclub.org.
+
+We appreciate your interest in advancing AI education in the MENA region!
+
+Best regards,
+The TelqAI Team
+STEM Computer Science Club
+
+---
+This is an automated confirmation email. Please do not reply to this email.
 ```
 
 ### 5. Get Configuration Values
