@@ -498,10 +498,13 @@ const JoinProgram: React.FC = memo(() => {
     // Final validation before submission
     if (!validateAllFields()) {
       // Scroll to first error or go to first phase with errors
+      console.log('Validation failed, going to phase 1. Errors:', errors);
+      alert('Please fix all validation errors before submitting. Check all sections of the form.');
       setCurrentPhase(1);
       return;
     }
     
+    console.log('Validation passed, showing confirmation dialog');
     // Show confirmation dialog first
     setShowConfirmDialog(true);
   };
@@ -536,7 +539,8 @@ const JoinProgram: React.FC = memo(() => {
       
       if (result.success) {
         // Registration submitted successfully - no email confirmation needed
-        console.log('Registration submitted successfully to database');
+        console.log('✅ Registration submitted successfully to database');
+        console.log('Showing success modal...');
 
         // Show success message and reset form
         setShowSuccessMessage(true);
@@ -563,9 +567,10 @@ const JoinProgram: React.FC = memo(() => {
           subscribeNewsletter: false
         });
         setCurrentPhase(1);
+        console.log('Form reset and success modal should be visible');
       } else {
-        console.error('Submission error details:', result.error);
-        alert(`There was an error submitting your application: ${result.error?.message || 'Unknown error'}. Please try again.`);
+        console.error('❌ Submission error details:', result.error);
+        alert(`There was an error submitting your application:\n\n${result.error?.message || 'Unknown error'}\n\nPlease try again or contact support if the issue persists.`);
       }
     } catch (error) {
       console.error('Unexpected error details:', error);
