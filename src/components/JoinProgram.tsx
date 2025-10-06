@@ -100,9 +100,9 @@ const JoinProgram: React.FC = memo(() => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
-  // Form deadline: October 8, 2025 in GMT+3
+  // Form deadline: October 14, 2025 in GMT+3
   useEffect(() => {
-    const formDeadline = new Date('2025-10-08T23:59:59+03:00'); // October 8, 2025 11:59 PM GMT+3
+    const formDeadline = new Date('2025-10-14T23:59:59+03:00'); // October 14, 2025 11:59 PM GMT+3
     const now = new Date();
     
     // Check if form is closed
@@ -997,7 +997,7 @@ const JoinProgram: React.FC = memo(() => {
             <div className="text-6xl mb-4">⏰</div>
             <h3 className="text-2xl font-bold text-white mb-4">Registration Closed</h3>
             <p className="text-white/80 mb-6">
-              The registration period for the Telqai AI Program has ended on October 8, 2025. 
+              The registration period for the Telqai AI Program has ended on October 14, 2025. 
               Thank you for your interest! Please stay tuned for future program announcements.
             </p>
             <Link
