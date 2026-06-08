@@ -5,18 +5,18 @@ import { submitRegistration, type RegistrationData } from '../lib/supabase';
 
 // MENA countries list
 const MENA_COUNTRIES = [
-  'Algeria', 'Bahrain', 'Djibouti', 'Egypt', 'Iraq', 'Jordan', 'Kuwait', 'Lebanon', 
-  'Libya', 'Malta', 'Morocco', 'Oman', 'Palestine', 'Qatar', 'Saudi Arabia', 
+  'Algeria', 'Bahrain', 'Djibouti', 'Egypt', 'Iraq', 'Jordan', 'Kuwait', 'Lebanon',
+  'Libya', 'Malta', 'Morocco', 'Oman', 'Palestine', 'Qatar', 'Saudi Arabia',
   'Somalia', 'Sudan', 'Syria', 'Tunisia', 'Turkey', 'United Arab Emirates', 'Yemen'
 ];
 
 // Country codes for MENA region
 const COUNTRY_CODES = {
-  'Algeria': '+213', 'Bahrain': '+973', 'Djibouti': '+253', 'Egypt': '+20', 
-  'Iraq': '+964', 'Jordan': '+962', 'Kuwait': '+965', 'Lebanon': '+961', 
-  'Libya': '+218', 'Malta': '+356', 'Morocco': '+212', 'Oman': '+968', 
-  'Palestine': '+970', 'Qatar': '+974', 'Saudi Arabia': '+966', 'Somalia': '+252', 
-  'Sudan': '+249', 'Syria': '+963', 'Tunisia': '+216', 'Turkey': '+90', 
+  'Algeria': '+213', 'Bahrain': '+973', 'Djibouti': '+253', 'Egypt': '+20',
+  'Iraq': '+964', 'Jordan': '+962', 'Kuwait': '+965', 'Lebanon': '+961',
+  'Libya': '+218', 'Malta': '+356', 'Morocco': '+212', 'Oman': '+968',
+  'Palestine': '+970', 'Qatar': '+974', 'Saudi Arabia': '+966', 'Somalia': '+252',
+  'Sudan': '+249', 'Syria': '+963', 'Tunisia': '+216', 'Turkey': '+90',
   'United Arab Emirates': '+971', 'Yemen': '+967'
 };
 
@@ -63,7 +63,7 @@ const JoinProgram: React.FC = memo(() => {
         console.error('Error parsing saved form data:', error);
       }
     }
-    
+
     return {
       // Section 1: Personal Information
       fullName: '',
@@ -74,20 +74,20 @@ const JoinProgram: React.FC = memo(() => {
       phone: '',
       currentSchool: '',
       grade: '',
-      
+
       // Section 2: Educational Background and Experience
       usedAITools: '',
       aiExperience: '',
-      
+
       // Section 3: Motivation and Goals
       motivation: '',
       problemSolving: '',
-      
+
       // Section 4: Accessibility and Commitment
       reliableInternet: '',
       programCommitment: '',
       additionalInformation: '',
-      
+
       // Communication Preferences
       acceptProgramEmails: false,
       subscribeNewsletter: false
@@ -102,32 +102,32 @@ const JoinProgram: React.FC = memo(() => {
 
   // Form deadline: October 14, 2025 in GMT+3
   useEffect(() => {
-    const formDeadline = new Date('2026-03-02T23:59:59+02:00'); // October 14, 2025 11:59 PM GMT+3
+    const formDeadline = new Date('2026-07-01T23:59:59+02:00'); // October 14, 2025 11:59 PM GMT+3
     const now = new Date();
-    
+
     // Check if form is closed
     if (now > formDeadline) {
       setIsFormClosed(true);
     }
-    
+
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = formDeadline.getTime() - now;
-      
+
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      
+
       setCountdown({ days, hours, minutes, seconds });
-      
+
       if (distance < 0) {
         clearInterval(timer);
         setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         setIsFormClosed(true);
       }
     }, 1000);
-    
+
     return () => clearInterval(timer);
   }, []);
 
@@ -136,7 +136,7 @@ const JoinProgram: React.FC = memo(() => {
     if (formData.country && COUNTRY_CODES[formData.country as keyof typeof COUNTRY_CODES]) {
       const currentPhone = formData.phone;
       const countryCode = COUNTRY_CODES[formData.country as keyof typeof COUNTRY_CODES];
-      
+
       // Only update if phone doesn't already have the correct country code
       if (!currentPhone.startsWith(countryCode + ' ')) {
         const updatedPhone = getPhoneWithCountryCode(currentPhone, formData.country);
@@ -148,23 +148,23 @@ const JoinProgram: React.FC = memo(() => {
   const getPhoneWithCountryCode = (phone: string, country: string): string => {
     const countryCode = COUNTRY_CODES[country as keyof typeof COUNTRY_CODES] || '';
     if (!countryCode) return phone;
-    
+
     // Remove all non-digits and spaces
     const digits = phone.replace(/[^\d\s]/g, '').replace(/\s+/g, ' ').trim();
-    
+
     // If phone is empty or just country code, return country code
     if (!digits || digits === countryCode.replace('+', '')) {
       return `${countryCode} `;
     }
-    
+
     // Extract the local number part (remove country code if present)
     let localNumber = digits;
     const countryCodeDigits = countryCode.replace('+', '');
-    
+
     if (digits.startsWith(countryCodeDigits)) {
       localNumber = digits.substring(countryCodeDigits.length).trim();
     }
-    
+
     // Format: +CountryCode LocalNumber
     return localNumber ? `${countryCode} ${localNumber}` : `${countryCode} `;
   };
@@ -172,24 +172,24 @@ const JoinProgram: React.FC = memo(() => {
   const handlePhoneChange = (phoneValue: string, country: string): string => {
     const countryCode = COUNTRY_CODES[country as keyof typeof COUNTRY_CODES] || '';
     if (!countryCode) return phoneValue;
-    
+
     // Don't allow editing before the country code
     if (!phoneValue.startsWith(countryCode + ' ')) {
       // If user tries to edit the country code part, restore it
       const localPart = phoneValue.replace(countryCode, '').replace(/^\+?\d*\s*/, '').trim();
       return `${countryCode} ${localPart}`;
     }
-    
+
     return phoneValue;
   };
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
-    
+
     let processedValue = type === 'checkbox' ? checked : value;
     let updatedFormData = { ...formData };
-    
+
     if (name === 'country' && typeof processedValue === 'string') {
       // When country changes, update phone with new country code
       updatedFormData.country = processedValue;
@@ -201,14 +201,14 @@ const JoinProgram: React.FC = memo(() => {
     } else {
       updatedFormData[name] = processedValue;
     }
-    
+
     // Clear AI experience if user selects "no" for AI tools
     if (name === 'usedAITools' && processedValue === 'no') {
       updatedFormData.aiExperience = '';
     }
-    
+
     setFormData(updatedFormData);
-    
+
     // Clear specific field error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors(prev => {
@@ -217,7 +217,7 @@ const JoinProgram: React.FC = memo(() => {
         return newErrors;
       });
     }
-    
+
     // Clear aiExperience error when user selects "no" for AI tools
     if (name === 'usedAITools' && processedValue === 'no' && errors.aiExperience) {
       setErrors(prev => {
@@ -226,7 +226,7 @@ const JoinProgram: React.FC = memo(() => {
         return newErrors;
       });
     }
-    
+
     // Save to localStorage
     localStorage.setItem('talaqai-registration-form', JSON.stringify(updatedFormData));
   }, [formData, errors]);
@@ -252,7 +252,7 @@ const JoinProgram: React.FC = memo(() => {
     const age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
     const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
-    
+
     if (actualAge < 12) return 'You must be at least 12 years old to apply';
     if (actualAge > 25) return 'This program is designed for students aged 12-25';
     return null;
@@ -262,7 +262,7 @@ const JoinProgram: React.FC = memo(() => {
     if (!email) return 'Email address is required';
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) return 'Please enter a valid email address';
-    
+
     const domain = email.split('@')[1]?.toLowerCase();
     if (TEMP_EMAIL_DOMAINS.includes(domain)) {
       return 'Please use a permanent email address (temporary emails are not allowed)';
@@ -368,11 +368,11 @@ const JoinProgram: React.FC = memo(() => {
         if (!formData.reliableInternet) {
           newErrors.reliableInternet = 'Please indicate if you have reliable internet access';
         }
-        
+
         if (!formData.programCommitment) {
           newErrors.programCommitment = 'Please confirm your commitment to attend all sessions';
         }
-        
+
         if (!formData.acceptProgramEmails) {
           newErrors.acceptProgramEmails = 'You must accept receiving program-related communications';
         }
@@ -389,7 +389,7 @@ const JoinProgram: React.FC = memo(() => {
   const nextPhase = () => {
     const isValid = validateCurrentPhase();
     console.log('Phase:', currentPhase, 'Valid:', isValid, 'Errors:', errors);
-    
+
     if (isValid && currentPhase < 4) {
       console.log('Moving from phase', currentPhase, 'to phase', currentPhase + 1);
       setCurrentPhase(currentPhase + 1);
@@ -477,11 +477,11 @@ const JoinProgram: React.FC = memo(() => {
     if (!formData.reliableInternet) {
       newErrors.reliableInternet = 'Please indicate if you have reliable internet access';
     }
-    
+
     if (!formData.programCommitment) {
       newErrors.programCommitment = 'Please confirm your commitment to attend all sessions';
     }
-    
+
     if (!formData.acceptProgramEmails) {
       newErrors.acceptProgramEmails = 'You must accept receiving program-related communications';
     }
@@ -492,9 +492,9 @@ const JoinProgram: React.FC = memo(() => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (isSubmitting) return;
-    
+
     // Final validation before submission
     if (!validateAllFields()) {
       // Scroll to first error or go to first phase with errors
@@ -503,7 +503,7 @@ const JoinProgram: React.FC = memo(() => {
       setCurrentPhase(1);
       return;
     }
-    
+
     console.log('Validation passed, showing confirmation dialog');
     // Show confirmation dialog first
     setShowConfirmDialog(true);
@@ -512,7 +512,7 @@ const JoinProgram: React.FC = memo(() => {
   const confirmSubmission = async () => {
     setShowConfirmDialog(false);
     setIsSubmitting(true);
-    
+
     try {
       // Prepare data for Supabase
       const registrationData: RegistrationData = {
@@ -536,7 +536,7 @@ const JoinProgram: React.FC = memo(() => {
       };
 
       const result = await submitRegistration(registrationData);
-      
+
       if (result.success) {
         // Registration submitted successfully - no email confirmation needed
         console.log('✅ Registration submitted successfully to database');
@@ -586,7 +586,7 @@ const JoinProgram: React.FC = memo(() => {
         return (
           <div className="space-y-8">
             <h3 className="text-2xl font-bold text-white mb-6 text-center">Section 1: Personal Information</h3>
-            
+
             <div>
               <label htmlFor="fullName" className="block text-sm font-medium text-white/90 mb-2">
                 Full Name *
@@ -702,7 +702,7 @@ const JoinProgram: React.FC = memo(() => {
                 value={formData.phone}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-300 text-white placeholder-white/60"
-                placeholder={formData.country && COUNTRY_CODES[formData.country as keyof typeof COUNTRY_CODES] 
+                placeholder={formData.country && COUNTRY_CODES[formData.country as keyof typeof COUNTRY_CODES]
                   ? `${COUNTRY_CODES[formData.country as keyof typeof COUNTRY_CODES]} XXXXXXXXX`
                   : "Please select your country first"
                 }
@@ -769,10 +769,10 @@ const JoinProgram: React.FC = memo(() => {
         return (
           <div className="space-y-8">
             <h3 className="text-2xl font-bold text-white mb-6 text-center">Section 2: Motivation and Goals</h3>
-            
+
             <div>
               <label htmlFor="motivation" className="block text-sm font-medium text-white/90 mb-2">
-                Why do you want to join this AI education program? What are your goals? 
+                Why do you want to join this AI education program? What are your goals?
                 Please explain in 150-250 words. *
               </label>
               <textarea
@@ -795,7 +795,7 @@ const JoinProgram: React.FC = memo(() => {
 
             <div>
               <label htmlFor="problemSolving" className="block text-sm font-medium text-white/90 mb-2">
-                Describe a problem or challenge you think AI and automation can help solve in your community or school. 
+                Describe a problem or challenge you think AI and automation can help solve in your community or school.
                 (150-250 words) *
               </label>
               <textarea
@@ -822,7 +822,7 @@ const JoinProgram: React.FC = memo(() => {
         return (
           <div className="space-y-8">
             <h3 className="text-2xl font-bold text-white mb-6 text-center">Section 3: Educational Background and Experience</h3>
-            
+
             <div>
               <label htmlFor="usedAITools" className="block text-sm font-medium text-white/90 mb-2">
                 Have you used any AI automations before? *
@@ -875,7 +875,7 @@ const JoinProgram: React.FC = memo(() => {
         return (
           <div className="space-y-8">
             <h3 className="text-2xl font-bold text-white mb-6 text-center">Section 4: Accessibility and Commitment</h3>
-            
+
             <div>
               <label htmlFor="reliableInternet" className="block text-sm font-medium text-white/90 mb-2">
                 Do you have reliable internet access to attend online sessions? *
@@ -939,7 +939,7 @@ const JoinProgram: React.FC = memo(() => {
 
             <div className="space-y-6">
               <h4 className="text-xl font-semibold text-white mb-4">Communication Preferences</h4>
-              
+
               <div className="flex items-start space-x-4">
                 <input
                   type="checkbox"
@@ -997,7 +997,7 @@ const JoinProgram: React.FC = memo(() => {
             <div className="text-6xl mb-4">⏰</div>
             <h3 className="text-2xl font-bold text-white mb-4">Registration Closed</h3>
             <p className="text-white/80 mb-6">
-              The registration period for the Telqai AI Program has ended on October 14, 2025. 
+              The registration period for the Telqai AI Program has ended on October 14, 2025.
               Thank you for your interest! Please stay tuned for future program announcements.
             </p>
             <Link
@@ -1013,7 +1013,7 @@ const JoinProgram: React.FC = memo(() => {
       {/* Spline 3D Background */}
       <div className="absolute inset-0 z-0 scale-150 transform-gpu">
         <div className="w-full h-full relative">
-          <Spline 
+          <Spline
             scene="https://prod.spline.design/pIJQq1X3VycnDOfe/scene.splinecode"
             style={{
               width: '100%',
@@ -1085,42 +1085,38 @@ const JoinProgram: React.FC = memo(() => {
                   <div key={phase.num} className="flex items-center">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
-                          currentPhase >= phase.num
+                        className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${currentPhase >= phase.num
                             ? 'bg-cyan-500 text-white'
                             : 'bg-white/20 text-white/60'
-                        }`}
+                          }`}
                       >
                         {phase.num}
                       </div>
-                      <span className={`text-xs mt-2 transition-all duration-300 ${
-                        currentPhase >= phase.num ? 'text-cyan-400 font-medium' : 'text-white/60'
-                      }`}>
+                      <span className={`text-xs mt-2 transition-all duration-300 ${currentPhase >= phase.num ? 'text-cyan-400 font-medium' : 'text-white/60'
+                        }`}>
                         {phase.name}
                       </span>
                     </div>
                     {phase.num < 4 && (
                       <div
-                        className={`w-20 h-1 mx-4 transition-all duration-300 ${
-                          currentPhase > phase.num ? 'bg-cyan-500' : 'bg-white/20'
-                        }`}
+                        className={`w-20 h-1 mx-4 transition-all duration-300 ${currentPhase > phase.num ? 'bg-cyan-500' : 'bg-white/20'
+                          }`}
                       />
                     )}
                   </div>
                 ))}
               </div>
-              
+
               {/* Mobile Progress Bar */}
               <div className="md:hidden mb-4">
                 <div className="flex justify-center items-center space-x-2 mb-3">
                   {[1, 2, 3, 4].map((phase) => (
                     <div
                       key={phase}
-                      className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
-                        currentPhase >= phase
+                      className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${currentPhase >= phase
                           ? 'bg-cyan-500 text-white'
                           : 'bg-white/20 text-white/60'
-                      }`}
+                        }`}
                     >
                       {phase}
                     </div>
@@ -1133,13 +1129,13 @@ const JoinProgram: React.FC = memo(() => {
                   />
                 </div>
               </div>
-              
+
               <div className="text-center text-white/80 text-sm">
                 Section {currentPhase} of 4: {
                   currentPhase === 1 ? 'Personal Information' :
-                  currentPhase === 2 ? 'Motivation and Goals' :
-                  currentPhase === 3 ? 'Educational Background' :
-                  'Accessibility and Commitment'
+                    currentPhase === 2 ? 'Motivation and Goals' :
+                      currentPhase === 3 ? 'Educational Background' :
+                        'Accessibility and Commitment'
                 }
               </div>
             </div>
@@ -1163,11 +1159,11 @@ const JoinProgram: React.FC = memo(() => {
                       <div className="text-sm text-white/90 leading-relaxed">
                         <p className="font-semibold text-white mb-2">Application Review Process</p>
                         <p className="mb-3">
-                          Your application will be reviewed by our admissions committee. Due to limited spots, 
+                          Your application will be reviewed by our admissions committee. Due to limited spots,
                           we carefully evaluate each application based on motivation, commitment, and program fit.
                         </p>
                         <p className="text-white/80 text-xs">
-                          <span className="font-medium">Privacy:</span> Your personal information will be kept confidential and used only for program purposes. 
+                          <span className="font-medium">Privacy:</span> Your personal information will be kept confidential and used only for program purposes.
                           We do not share your data with third parties. You can request data deletion at any time by contacting us.
                         </p>
                       </div>
@@ -1181,11 +1177,10 @@ const JoinProgram: React.FC = memo(() => {
                     type="button"
                     onClick={prevPhase}
                     disabled={currentPhase === 1}
-                    className={`w-full sm:w-auto px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
-                      currentPhase === 1
+                    className={`w-full sm:w-auto px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${currentPhase === 1
                         ? 'bg-white/10 text-white/40 cursor-not-allowed'
                         : 'bg-white/20 text-white hover:bg-white/30'
-                    }`}
+                      }`}
                   >
                     Previous
                   </button>
@@ -1203,11 +1198,10 @@ const JoinProgram: React.FC = memo(() => {
                       type="button"
                       onClick={(e) => handleSubmit(e)}
                       disabled={isSubmitting}
-                      className={`w-full sm:w-auto px-8 py-4 bg-gradient-to-r font-semibold rounded-xl transition-all duration-300 transform ${
-                        isSubmitting 
-                          ? 'from-gray-500 to-gray-600 cursor-not-allowed' 
+                      className={`w-full sm:w-auto px-8 py-4 bg-gradient-to-r font-semibold rounded-xl transition-all duration-300 transform ${isSubmitting
+                          ? 'from-gray-500 to-gray-600 cursor-not-allowed'
                           : 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105'
-                      } text-white`}
+                        } text-white`}
                     >
                       {isSubmitting ? 'Submitting...' : 'Review & Submit Application'}
                     </button>
@@ -1229,7 +1223,7 @@ const JoinProgram: React.FC = memo(() => {
                 Are you ready to submit your application? Please review all your information before confirming.
               </p>
             </div>
-            
+
             <div className="bg-white/5 rounded-xl p-4 mb-6 text-sm text-white/80">
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div>Name: {formData.fullName}</div>
@@ -1238,7 +1232,7 @@ const JoinProgram: React.FC = memo(() => {
                 <div>Grade: {formData.grade}</div>
               </div>
             </div>
-            
+
             <div className="flex space-x-4">
               <button
                 onClick={() => setShowConfirmDialog(false)}
