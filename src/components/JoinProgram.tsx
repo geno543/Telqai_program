@@ -102,7 +102,7 @@ const JoinProgram: React.FC = memo(() => {
 
   // Form deadline: October 14, 2025 in GMT+3
   useEffect(() => {
-    const formDeadline = new Date('2026-07-01T23:59:59+02:00'); // October 14, 2025 11:59 PM GMT+3
+    const formDeadline = new Date('2026-07-10T23:59:59+02:00'); // October 14, 2025 11:59 PM GMT+3
     const now = new Date();
 
     // Check if form is closed
