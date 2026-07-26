@@ -1,7 +1,8 @@
-import React, { useState, useEffect, memo, useCallback } from 'react';
+import React, { useState, useEffect, memo, useCallback, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
-import Spline from '@splinetool/react-spline';
 import { submitRegistration, type RegistrationData } from '../lib/supabase';
+
+const Spline = lazy(() => import('@splinetool/react-spline'));
 
 // MENA countries list
 const MENA_COUNTRIES = [
@@ -1002,7 +1003,7 @@ const JoinProgram: React.FC = memo(() => {
             </p>
             <Link
               to="/"
-              className="inline-block px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+              className="inline-block px-6 py-3 bg-gradient-brand hover:bg-gradient-brand-hover text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
             >
               Back to Home
             </Link>
@@ -1011,17 +1012,19 @@ const JoinProgram: React.FC = memo(() => {
       )}
 
       {/* Spline 3D Background */}
-      <div className="absolute inset-0 z-0 scale-150 transform-gpu">
+      <div className="absolute inset-0 z-0">
         <div className="w-full h-full relative">
-          <Spline
-            scene="https://prod.spline.design/pIJQq1X3VycnDOfe/scene.splinecode"
-            style={{
-              width: '100%',
-              height: '100%',
-              transform: 'scale(1.5) translateZ(0)',
-              transformOrigin: 'center center'
-            }}
-          />
+          <Suspense fallback={
+            <div className="w-full h-full bg-gradient-to-br from-navy to-navy-50 animate-pulse" />
+          }>
+            <Spline
+              scene="https://prod.spline.design/pIJQq1X3VycnDOfe/scene.splinecode"
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+            />
+          </Suspense>
         </div>
       </div>
 
@@ -1189,7 +1192,7 @@ const JoinProgram: React.FC = memo(() => {
                     <button
                       type="button"
                       onClick={nextPhase}
-                      className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+                      className="w-full sm:w-auto px-8 py-4 bg-gradient-brand hover:bg-gradient-brand-hover text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
                     >
                       Next Section
                     </button>
@@ -1274,7 +1277,7 @@ const JoinProgram: React.FC = memo(() => {
             </div>
             <button
               onClick={() => setShowSuccessMessage(false)}
-              className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+              className="px-6 py-3 bg-gradient-brand hover:bg-gradient-brand-hover text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
             >
               Close
             </button>

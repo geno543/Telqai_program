@@ -4,21 +4,18 @@ import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import Footer from './components/Footer'
 
-// Lazy load heavy components to improve initial load time
 const About = lazy(() => import('./components/About'));
 const Curriculum = lazy(() => import('./components/Curriculum'));
 const Sponsors = lazy(() => import('./components/Sponsors'));
 const Contact = lazy(() => import('./components/Contact'));
 const JoinProgram = lazy(() => import('./components/JoinProgram'));
 
-// Loading component for better UX during lazy loading
 const LoadingSpinner = () => (
-  <div className="flex items-center justify-center py-20">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
-  </div>
+    <div className="flex items-center justify-center py-20">
+      <div className="animate-spin rounded-full h-10 w-10 border-2 border-white/10 border-t-cyan-500"></div>
+    </div>
 );
 
-// Home page component with lazy loading
 const HomePage = () => {
   return (
     <>
@@ -42,7 +39,7 @@ const HomePage = () => {
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+      <div className="min-h-screen bg-[#0a0718] text-white transition-colors duration-300">
         <Navigation />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -51,7 +48,6 @@ function App() {
               <JoinProgram />
             </Suspense>
           } />
-          {/* Catch-all route for handling direct navigation */}
           <Route path="*" element={<HomePage />} />
         </Routes>
         <Footer />

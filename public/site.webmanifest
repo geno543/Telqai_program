@@ -4,8 +4,8 @@
   "description": "Empowering high school students in the Arab world with AI automation and no-code development skills",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#4f46e5",
+  "background_color": "#130C36",
+  "theme_color": "#130C36",
   "icons": [
     {
       "src": "/logos/logo_icon.png",
